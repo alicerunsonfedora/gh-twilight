@@ -10,7 +10,7 @@
 
 import datetime
 from github import Github, Repository, PaginatedList
-from src.repo import GHRepositoryWeeksum
+from gh_twilight.repo import GHRepositoryWeeksum
 
 
 class GithubMLDataCollector:

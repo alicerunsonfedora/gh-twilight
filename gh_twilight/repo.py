@@ -8,7 +8,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 
-from src.commit import GHCommitWeek
+from gh_twilight.commit import GHCommitWeek
 
 class GHRepositoryWeeksum:
     def __init__(self, name, author, total, abstotal, weeksum):

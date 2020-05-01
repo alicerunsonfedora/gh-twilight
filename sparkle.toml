@@ -1,0 +1,6 @@
+[config.account]
+git_name = ""
+token = ""
+
+[config.activities]
+repos = []
