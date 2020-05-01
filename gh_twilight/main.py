@@ -58,61 +58,64 @@ def main(**kwargs):
             logging.info("Generation tool aborted by user.")
         return
 
-    if options.config:
-        config = TSConfiguration(options.config[0])
+    if not options.config:
+        sparkle_args().print_help()
+        return
 
-        # Initialize the collector
-        gh_collector = GithubMLDataCollector(config.get_token())
+    config = TSConfiguration(options.config[0])
 
-        # Get the dataset and go through every repo in the list to get its data.
-        dataset = []
-        if not config.study_repos:
-            logging.log(logging.WARN, "Repository list is empty.")
+    # Initialize the collector
+    gh_collector = GithubMLDataCollector(config.get_token())
 
-        for repo in config.study_repos:
-            dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
+    # Get the dataset and go through every repo in the list to get its data.
+    dataset = []
+    if not config.study_repos:
+        logging.log(logging.WARN, "Repository list is empty.")
 
-        if options.json:
-            logging.info("Writing JSON dataset to dataset.json...")
-            with open("dataset.json", "w+") as json_file:
-                json_file.write(json.dumps([x.to_dict() for x in dataset], indent=4))
+    for repo in config.study_repos:
+        dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
 
-        if options.csv:
-            logging.info("Writing CSV dataset to results.csv...")
-            with open("dataset.csv", "w+") as csv_file_writer:
-                csv_data_writer = csv.writer(csv_file_writer,
-                                             delimiter=",",
-                                             quotechar="|",
-                                             quoting=csv.QUOTE_MINIMAL)
+    if options.json:
+        logging.info("Writing JSON dataset to dataset.json...")
+        with open("dataset.json", "w+") as json_file:
+            json_file.write(json.dumps([x.to_dict() for x in dataset], indent=4))
+
+    if options.csv:
+        logging.info("Writing CSV dataset to results.csv...")
+        with open("dataset.csv", "w+") as csv_file_writer:
+            csv_data_writer = csv.writer(csv_file_writer,
+                                         delimiter=",",
+                                         quotechar="|",
+                                         quoting=csv.QUOTE_MINIMAL)
+            csv_data_writer.writerow([
+                "Repository",
+                "Git Commit Author",
+                "Total Commits",
+                "Total Commits by Author",
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+            ])
+
+            data: GHRepositoryWeeksum
+            for data in dataset:
                 csv_data_writer.writerow([
-                    "Repository",
-                    "Git Commit Author",
-                    "Total Commits",
-                    "Total Commits by Author",
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday"
+                    data.name,
+                    data.author,
+                    data.abstotal,
+                    data.total,
+                    data.weeksum.sunday(),
+                    data.weeksum.monday(),
+                    data.weeksum.tuesday(),
+                    data.weeksum.wednesday(),
+                    data.weeksum.thursday(),
+                    data.weeksum.friday(),
+                    data.weeksum.saturday()
                 ])
-
-                data: GHRepositoryWeeksum
-                for data in dataset:
-                    csv_data_writer.writerow([
-                        data.name,
-                        data.author,
-                        data.abstotal,
-                        data.total,
-                        data.weeksum.sunday(),
-                        data.weeksum.monday(),
-                        data.weeksum.tuesday(),
-                        data.weeksum.wednesday(),
-                        data.weeksum.thursday(),
-                        data.weeksum.friday(),
-                        data.weeksum.saturday()
-                    ])
 
 if __name__ == "__main__":
     main()
