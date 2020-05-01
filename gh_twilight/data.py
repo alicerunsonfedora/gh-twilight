@@ -7,8 +7,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
-
+"""The data submodule contains the utilities and classes needed to gather data from GitHub."""
 import datetime
+import logging
 from github import Github, Repository, PaginatedList
 from gh_twilight.repo import GHRepositoryWeeksum
 
@@ -27,6 +28,7 @@ class GithubMLDataCollector:
             token: The access token to sign in to GitHub with.
         """
         self.client = Github(token)
+        logging.info("Authentcated with GitHub.")
 
     def get_weeksum(self, of_repository: str, **kwargs) -> GHRepositoryWeeksum:
         """Get the weekly commits of a given repository.
@@ -38,9 +40,11 @@ class GithubMLDataCollector:
             by_author (str): The name of the Git commit author to filter by.
 
         Returns:
-            data (GHRepositoryWeeksum): The data structure containing the name, total commit count, and the sum of
-                commits in all weeks in a given repository by a given Git commit author (or by all authors).
+            data (GHRepositoryWeeksum): The data structure containing the name, total commit count,
+                and the sum of commits in all weeks in a given repository by a given Git commit
+                author (or by all authors).
         """
+        logging.info("Gathering repository data for %s...", of_repository)
         name = of_repository
         current_repo: Repository = self.client.get_repo(of_repository)
         repo_commits: PaginatedList = current_repo.get_commits()

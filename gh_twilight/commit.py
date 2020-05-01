@@ -7,7 +7,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
-
+"""The commit submodule contains the data structure for a week in commits."""
 class GHCommitWeek:
     """The class representation of a week's worth commits in Github."""
 

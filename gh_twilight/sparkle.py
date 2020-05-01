@@ -7,7 +7,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
-
+"""The sparkle submodule contains the utilities necessary for handling Sparkle configurations
+    for use with the main program."""
+import logging
 import toml
 
 class TSConfigurationError(Exception):
@@ -51,6 +53,7 @@ class TSConfiguration:
             if "activities" not in s_dict:
                 raise TSConfigurationError("Activity data missing from config.")
             self.study_repos = s_dict["activities"]["repos"]
+            logging.info("Loaded Sparkle configuration from %s.", path)
 
     def get_token(self) -> str:
         """Grab the personal access token from the configuration.
@@ -59,3 +62,26 @@ class TSConfiguration:
             api_token (str): The personal access token used for the analysis.
         """
         return self.__api_token
+
+def create_sparkle_data():
+    """Interactively create sparkle.toml."""
+    sparkle = {
+        "config": {
+            "account": {
+                "git_name": "",
+                "token": ""
+            },
+            "activities": {
+                "repos": []
+            }
+        }
+    }
+    sparkle["config"]["account"]["git_name"] = input("Enter your name in git.config: ")
+    print("To log into GitHub, you will need to generate a personal access token from GitHub.")
+    print("Go to https://github.com/settings/tokens/new?scopes=repo to create a token and then"
+          + " copy the token below.")
+    print("If you want to skip this step, press Enter or Return now.\n")
+    sparkle["config"]["account"]["token"] = input("Enter your GitHub personal access token: ")
+    with open("sparkle.toml", "w+") as sparkle_writer:
+        sparkle_writer.write(toml.dumps(sparkle))
+        logging.info("Written Sparkle file to sparkle.toml.")

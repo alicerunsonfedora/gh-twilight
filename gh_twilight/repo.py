@@ -8,9 +8,11 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 
+"""The repo submodule contains the data structure for a repository for analysis."""
 from gh_twilight.commit import GHCommitWeek
 
 class GHRepositoryWeeksum:
+    """A class representation of a repository with commit counts."""
     def __init__(self, name, author, total, abstotal, weeksum):
         self.name = name
         self.author = author
