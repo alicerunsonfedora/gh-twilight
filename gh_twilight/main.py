@@ -10,10 +10,13 @@
 
 """The main module contains the utilities necessary to handle the command-line logic for the
     tool."""
+import csv
 import sys
 import logging
+import json
 from argparse import ArgumentParser
 from gh_twilight.data import GithubMLDataCollector
+from gh_twilight.repo import GHRepositoryWeeksum
 from gh_twilight.sparkle import TSConfiguration, create_sparkle_data
 
 logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
@@ -24,6 +27,12 @@ def sparkle_args():
     sarg.add_argument("--config",
                       nargs=1,
                       help="The path to the configuration file to read from.")
+    sarg.add_argument("--csv",
+                      action="store_true",
+                      help="Create a CSV file that contains the dataset.")
+    sarg.add_argument("--json",
+                      action="store_true",
+                      help="Create a JSON file that contains the dataset.")
     sarg.add_argument("--generate",
                       action="store_true",
                       help="Generate a new Sparkle configuration.")
@@ -61,7 +70,49 @@ def main(**kwargs):
             logging.log(logging.WARN, "Repository list is empty.")
 
         for repo in config.study_repos:
-            dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name).to_dict())
+            dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
+
+        if options.json:
+            logging.info("Writing JSON dataset to dataset.json...")
+            with open("dataset.json", "w+") as json_file:
+                json_file.write(json.dumps([x.to_dict() for x in dataset], indent=4))
+
+        if options.csv:
+            logging.info("Writing CSV dataset to results.csv...")
+            with open("dataset.csv", "w+") as csv_file_writer:
+                csv_data_writer = csv.writer(csv_file_writer,
+                                             delimiter=",",
+                                             quotechar="|",
+                                             quoting=csv.QUOTE_MINIMAL)
+                csv_data_writer.writerow([
+                    "Repository",
+                    "Git Commit Author",
+                    "Total Commits",
+                    "Total Commits by Author",
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday"
+                ])
+
+                data: GHRepositoryWeeksum
+                for data in dataset:
+                    csv_data_writer.writerow([
+                        data.name,
+                        data.author,
+                        data.abstotal,
+                        data.total,
+                        data.weeksum.sunday(),
+                        data.weeksum.monday(),
+                        data.weeksum.tuesday(),
+                        data.weeksum.wednesday(),
+                        data.weeksum.thursday(),
+                        data.weeksum.friday(),
+                        data.weeksum.saturday()
+                    ])
 
 if __name__ == "__main__":
     main()
