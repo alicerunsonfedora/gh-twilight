@@ -15,16 +15,17 @@ import sys
 import logging
 import json
 from argparse import ArgumentParser
+from random import shuffle
 from gh_twilight.data import GithubMLDataCollector
 from gh_twilight.repo import GHRepositoryWeeksum
-from gh_twilight.sparkle import TSConfiguration, create_sparkle_data
-from gh_twilight.analysis import create_dataset
+from gh_twilight.sparkle import TSConfiguration, TSConfigurationError, create_sparkle_data
+from gh_twilight.analysis import create_dataset, analyze_dataset
 
 logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
 
 def sparkle_args():
     """Create the argument parser for Twilight."""
-    sarg = ArgumentParser("Analyze your growth as a software developer on GitHub!")
+    sarg = ArgumentParser("Predict a repository's size based on a contributor's commit history.")
     sarg.add_argument("--config",
                       nargs=1,
                       help="The path to the configuration file to read from.")
@@ -110,7 +111,15 @@ def main(**kwargs):
         return
 
     # Load the configuration file and create the GitHub data collector.
-    config = TSConfiguration(options.config[0])
+    try:
+        config = TSConfiguration(options.config[0])
+    except TSConfigurationError as err:
+        logging.error("Configuration failed to load: %s", err)
+        return
+
+    if "config" not in vars():
+        return
+
     gh_collector = GithubMLDataCollector(config.get_token())
     raw_dataset = []
 
@@ -118,6 +127,7 @@ def main(**kwargs):
         logging.log(logging.WARN, "Repository list is empty.")
 
     # Collect the repository data for every repository listed in the config.
+    shuffle(config.study_repos)
     for repo in config.study_repos:
         raw_dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
 
@@ -133,9 +143,11 @@ def main(**kwargs):
         generate_csv(raw_dataset)
 
     # Create the dataset from the raw repository data.
-    x, y = create_dataset(raw_dataset)
+    true_dataset = create_dataset(raw_dataset)
 
-    # TODO: Analyze shit here.
+    logging.info("Running analysis on dataset...")
+    for model in config.models:
+        analyze_dataset(dataset=true_dataset, model=model)
 
 # Main loop.
 if __name__ == "__main__":

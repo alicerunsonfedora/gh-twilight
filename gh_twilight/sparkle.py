@@ -11,6 +11,7 @@
     for use with the main program."""
 import logging
 import toml
+from gh_twilight.analysis import TSDataModel
 
 class TSConfigurationError(Exception):
     """Could not load, parse, or read the configuration requested."""
@@ -28,6 +29,7 @@ class TSConfiguration:
     """
 
     study_repos = []
+    models = []
     git_name = ""
     __api_token = ""
 
@@ -53,6 +55,18 @@ class TSConfiguration:
             if "activities" not in s_dict:
                 raise TSConfigurationError("Activity data missing from config.")
             self.study_repos = s_dict["activities"]["repos"]
+
+            self.models = []
+            for model in s_dict["activities"]["models"]:
+                if model == "neural" and TSDataModel.NEURAL not in self.models:
+                    self.models.append(TSDataModel.NEURAL)
+                elif model == "linear" and TSDataModel.LINEAR not in self.models:
+                    self.models.append(TSDataModel.LINEAR)
+                elif model == "forest" and TSDataModel.FOREST not in self.models:
+                    self.models.append(TSDataModel.FOREST)
+                else:
+                    raise TSConfigurationError("Invalid model configuration: %s." % (model))
+
             logging.info("Loaded Sparkle configuration from %s.", path)
 
     def get_token(self) -> str:
@@ -72,16 +86,25 @@ def create_sparkle_data():
                 "token": ""
             },
             "activities": {
+                "models": [],
                 "repos": []
             }
         }
     }
     sparkle["config"]["account"]["git_name"] = input("Enter your name in git.config: ")
+
+    # Get the GitHub token.
     print("To log into GitHub, you will need to generate a personal access token from GitHub.")
     print("Go to https://github.com/settings/tokens/new?scopes=repo to create a token and then"
           + " copy the token below.")
     print("If you want to skip this step, press Enter or Return now.\n")
     sparkle["config"]["account"]["token"] = input("Enter your GitHub personal access token: ")
+
+    # Get the models.
+    print("\nWhat kinds of models do you want to use when analyzing your data?")
+    print("Valid options are: \"linear\", \"forest\", and \"neural\".")
+    print("To use multiple models, separate the models with a comma (no spaces).")
+    sparkle["config"]["activities"]["models"] = input("Enter your models here: ").split(",")
     with open("sparkle.toml", "w+") as sparkle_writer:
         sparkle_writer.write(toml.dumps(sparkle))
         logging.info("Written Sparkle file to sparkle.toml.")

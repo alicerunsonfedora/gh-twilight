@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "gh-twilight"
 version = "0.1.0"
-description = "Analyze your growth as a software developer on GitHub with machine learning!"
+description = "Predict a repository's size based on a contributor's commit history."
 authors = ["Marquis Kurt <software@marquiskurt.net>"]
 license = "MPL-2.0"
 

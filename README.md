@@ -1,23 +1,51 @@
-# Twilight for GitHub
+# Project Twilight
 
-![Twilight][ts]
+Predict a repository's size based on a contributor's commit history.
 
-Analyze your growth as a developer on GitHub.
+## What is it?
 
-## About this project
+Twilight is a project that aims to predict how many commits there are on projects you've contributed to by using machine learning models from SciKit Learn. Twilight makes use of tools like PyGithub and numpy to analyze repository datasets.
 
-This is the final project for my DMC345 class where I build a tool that analyzes GitHub activity based on a list of repositories and generates a regression model from them. This tool tries to make use of tools like SciKit Learn and Pandas to use machine learning to determine your GitHub activity.
+## Getting started
 
-## Quickstart: Install via PyPI (to be determined)
+### Install via PyPI (TBD)
 
-To install Twilight, simply run `pip install gh-twilight`.
+To install the project via PyPI, run `pip install gh-twilight`.
 
-## Run from source
+### Build from source
 
-### Requirements
-- Python 3.7 or higher
+#### Requirements
+
+- Python 3.7+
 - Poetry package manager
 
-To set up this project, clone the repository and then run `poetry install`.
+#### Instructions
+After cloning the repository, run `poetry install` in the root of the project, followed by `poetry build`.
 
-[ts]: https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/f82d6c04-06e0-4701-ac01-1f32adaf305b/d3hdyn3-1699c176-afba-42a1-b72e-b20f0903cefa.png/v1/fill/w_894,h_894,strp/cutie_mark___twilight_sparkle_by_ooklah_d3hdyn3-pre.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD0xMDI0IiwicGF0aCI6IlwvZlwvZjgyZDZjMDQtMDZlMC00NzAxLWFjMDEtMWYzMmFkYWYzMDViXC9kM2hkeW4zLTE2OTljMTc2LWFmYmEtNDJhMS1iNzJlLWIyMGYwOTAzY2VmYS5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.J3s5W5a_wymI9Mz-Vb1NdwEq5-TzJ5vKyKy_R8snPQc
+### Configuring the project
+
+In your terminal, run `gh-twilight --generate` to open the interactive Sparkle configuration generator. Alternatively, you can make a config TOML file like below:
+
+```toml
+[config.account]
+token = "githubhash"
+git_name = "Twilight Sparkle"
+
+[config.activities]
+models = ["forest", "neural"]
+repos = [
+    "equestria/friendship",
+    "equestria/governance",
+]
+```
+
+### Running the tool
+
+Run `gh-twilight --config <pathToConfigFile>` to run the analysis tool. Graphs will be produced where the tool is run from.
+
+#### Arguments
+
+- `--config CONFIG`: The path to the Sparkle configuration file to read from and analyze.
+- `--generate`: Run the interactive config generator.
+- `--csv`: Export the raw repository dataset as a CSV file.
+- `--json`: Export the raw repository dataset as a JSON file.
