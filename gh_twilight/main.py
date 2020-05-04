@@ -19,7 +19,7 @@ from random import shuffle
 from gh_twilight.data import GithubMLDataCollector
 from gh_twilight.repo import GHRepositoryWeeksum
 from gh_twilight.sparkle import TSConfiguration, TSConfigurationError, create_sparkle_data
-from gh_twilight.analysis import create_dataset, analyze_dataset
+from gh_twilight.analysis import create_dataset, analyze_dataset, TSDataAnalysisResult
 
 logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
 
@@ -35,6 +35,9 @@ def sparkle_args():
     sarg.add_argument("--json",
                       action="store_true",
                       help="Create a JSON file that contains the dataset.")
+    sarg.add_argument("--plot",
+                      action="store_true",
+                      help="Generate plot graphs from the analysis.")
     sarg.add_argument("--generate",
                       action="store_true",
                       help="Generate a new Sparkle configuration.")
@@ -146,8 +149,18 @@ def main(**kwargs):
     true_dataset = create_dataset(raw_dataset)
 
     logging.info("Running analysis on dataset...")
-    for model in config.models:
-        analyze_dataset(dataset=true_dataset, model=model)
+    analyses = [analyze_dataset(dataset=true_dataset, model=model) for model in config.models]
+
+    if options.plot:
+        result: TSDataAnalysisResult
+        for result in analyses:
+            logging.info("Creating a plot for results using %s model.",
+                         result.model_type.name.lower())
+            try:
+                result.plot()
+                logging.info("Plot saved to sparkle_analytics_%s.png.", result.model_type.name)
+            except Exception as err:    #pylint:disable=broad-except
+                logging.error("Failed to plot data: %s", err)
 
 # Main loop.
 if __name__ == "__main__":

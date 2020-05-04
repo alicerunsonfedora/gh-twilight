@@ -7,3 +7,4 @@ dist/**
 .vscode/
 mysparkle.toml
 .pytest_cache/*
+sparkle_analytics_**.png

@@ -40,6 +40,99 @@ class TSDatasetGenerateError(Exception):
 class TSDataAnalysisError(Exception):
     """Could not analyze the dataset."""
 
+class TSDataAnalysisResult():
+    """A data structure that holds the results of a given analysis."""
+
+    def __init__(self, model_type: TSDataModel, model, **kwargs):
+        """Initialize an analysis result.
+
+        Arguments:
+            model_type (TSDataModel): The type of model used.
+            model (object): The regression model that was used.
+            **kwargs (dict): Arbitrary keyword arguments.
+
+        Kwargs:
+            accuracy (float): The accuracy score of this model.
+            error (float): The mean squared error of this model.
+            training_data (tuple): A tuple containing the training data for X and y.
+            testing_data (tuple): A tuple containing the testing data for X and y.
+            labels (list): A list containing the names of the repositories.
+            data (dict): A dictionary containing the dataset.
+        """
+        self.model_type = model_type
+        self.model = model
+
+        if "accuracy" in kwargs:
+            self.accuracy = kwargs["accuracy"]
+
+        if "error" in kwargs:
+            self.error = kwargs["error"]
+
+        missing_dataset = [x in kwargs for x in ["data", "training_data", "testing_data", "labels"]]
+        if True not in missing_dataset:
+            raise TSDataAnalysisError("Not enough information to set up the analysis result.")
+
+        if "data" in kwargs:
+            self.labels = kwargs["data"]["targets"]
+
+            X, y = kwargs["data"]["data"]
+            self.x_train, self.y_train, self.x_test, self.y_test = train_test_split(X, y,
+                                                                                    test_size=0.2)
+
+        if "training_data" in kwargs:
+            self.x_train, self.y_train = kwargs["training_data"]
+
+        if "testing_data" in kwargs:
+            self.x_test, self.y_test = kwargs["testing_data"]
+
+        if "labels" in kwargs:
+            self.labels = kwargs["labels"]
+
+    def get_accuracy(self):
+        """Get the accuracy for this model.
+
+        If the acuracy score was not defined during initialization, the score will be calculated
+            with the data model and testing data.
+
+        Returns:
+            accuracy (float): The R2 accuracy score of this model.
+        """
+        if not self.accuracy:
+            pred = self.model.predict(self.x_test)
+            return r2_score(self.y_test, pred)
+        return self.accuracy
+
+    def get_error(self):
+        """Get the mean squared error for this model.
+
+        If the error was not defined during initialization, the error will be calculated with the
+            data model and testing data.
+
+        Returns:
+            error (float): The mean squared error of this model.
+        """
+        if not self.error:
+            pred = self.model.predict(self.x_test)
+            return mean_squared_error(self.y_test, pred)
+        return self.error
+
+    def plot(self):
+        """Plot the result data."""
+        if "labels" not in self.__dict__:
+            raise TSDataAnalysisError("Missing labels for data plot.")
+
+        x_axis = self.x_test.shape[0]
+        p_labels = [x.split("/")[1] for x in self.labels[(-1 * x_axis):]]
+        plt.scatter(np.arange(x_axis), self.y_test, color="black")
+        plt.plot(np.arange(x_axis), self.model.predict(self.x_test))
+        plt.ylabel("Total project commits")
+        plt.xlabel("Projects")
+        plt.xticks(np.arange(x_axis), p_labels, rotation=90)
+        plt.tight_layout()
+        plt.rcParams.update({'font.size': 10})
+        plt.savefig("sparkle_analytics_%s.png" % (self.model_type.name))
+        plt.clf()
+
 def create_raw_matrix(raw_dataset: list) -> np.ndarray:
     """Convert a list of GHRepositoryWeeksum objects to a proper numpy array for analysis.
 
@@ -80,12 +173,14 @@ def analyze_dataset(dataset: dict, model: TSDataModel):
     """Analyze a given dataset using a model.
 
     The analysis utility will split the data to training and testing data with an 80/20 split and
-        selects an appropriate model to predict the total project commit values. The utility will
-        also make a graph plot saved to where this function is called from.
+        selects an appropriate model to predict the total project commit values.
 
     Arguments:
         dataset (tuple): A dictionary that represents the repository dataset to use for analysis.
         model (TSDataModel): The data model type to use.
+
+    Returns:
+        result (TSDataAnalysisResult): The results of this data analysis.
     """
     X, y = dataset["data"] #pylint:disable=invalid-name
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0) #pylint:disable=invalid-name
@@ -126,23 +221,10 @@ def analyze_dataset(dataset: dict, model: TSDataModel):
     else:
         logging.info("Model predicted test data with a R2 score of %s percent.",
                      round(data_r2_score * 100, 2))
-
-    logging.info("Creating a regression plot...")
-    labels = [x.split("/")[1] for x in dataset["targets"][(-1 * X_test.shape[0]):]]
-    try:
-        plt.scatter(np.arange(X_test.shape[0]), y_test, color="black")
-        plt.plot(np.arange(X_test.shape[0]), predictions)
-        plt.ylabel("Total project commits")
-        plt.xlabel("Projects")
-        plt.xticks(np.arange(X_test.shape[0]),
-                   labels,
-                   rotation=90)
-        plt.tight_layout()
-        plt.rcParams.update({
-            'font.size': 10
-        })
-        plt.savefig("sparkle_analytics_%s.png" % (model.name))
-        plt.clf()
-        logging.info("Saved figure to sparkle_analytics_%s.png", model.name)
-    except Exception as error:
-        logging.error("Couldn't generate regression plot: %s", error)
+    return TSDataAnalysisResult(model_type=model,
+                                model=a_model,
+                                accuracy=data_r2_score,
+                                error=data_mse,
+                                training_data=(X_train, y_train),
+                                testing_data=(X_test, y_test),
+                                labels=dataset["targets"])
