@@ -21,14 +21,15 @@ from gh_twilight.repo import GHRepositoryWeeksum
 from gh_twilight.sparkle import TSConfiguration, TSConfigurationError, create_sparkle_data
 from gh_twilight.analysis import create_dataset, analyze_dataset, TSDataAnalysisResult
 
-logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
-
 def sparkle_args():
     """Create the argument parser for Twilight."""
     sarg = ArgumentParser("Predict a repository's size based on a contributor's commit history.")
     sarg.add_argument("--config",
                       nargs=1,
                       help="The path to the configuration file to read from.")
+    sarg.add_argument("--log-file",
+                      nargs=1,
+                      help="The path to where a log file should be created.")
     sarg.add_argument("--csv",
                       action="store_true",
                       help="Create a CSV file that contains the dataset.")
@@ -38,6 +39,9 @@ def sparkle_args():
     sarg.add_argument("--plot",
                       action="store_true",
                       help="Generate plot graphs from the analysis.")
+    sarg.add_argument("--predict",
+                      action="store_true",
+                      help="Predict the project size for the given inputs in the config file.")
     sarg.add_argument("--generate",
                       action="store_true",
                       help="Generate a new Sparkle configuration.")
@@ -98,6 +102,11 @@ def main(**kwargs):
     args = kwargs["args"] if "args" in kwargs else sys.argv[1:]
     options = sparkle_args().parse_args(args)
 
+    # Configure the logger and re-route logging data if requested.
+    logging.basicConfig(format='[%(levelname)s] %(message)s',
+                        level=logging.INFO,
+                        filename=options.log_file[0] if options.log_file else None)
+
     # If the user has requested to generate a Sparkle configuration, run the interactive tool
     # and exit the program after.
     if options.generate:
@@ -114,6 +123,7 @@ def main(**kwargs):
         return
 
     # Load the configuration file and create the GitHub data collector.
+    print("🛠  Reading configuration...")
     try:
         config = TSConfiguration(options.config[0])
     except TSConfigurationError as err:
@@ -130,9 +140,14 @@ def main(**kwargs):
         logging.log(logging.WARN, "Repository list is empty.")
 
     # Collect the repository data for every repository listed in the config.
+    print("🌎 Collecting data from GitHub...")
     shuffle(config.study_repos)
     for repo in config.study_repos:
         raw_dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
+    print("Collected data for %s repositories." % (len(config.study_repos)))
+
+    if options.json or options.csv:
+        print("📥 Exporting raw dataset...")
 
     # Write a JSON file containing the raw data if requested.
     if options.json:
@@ -148,9 +163,34 @@ def main(**kwargs):
     # Create the dataset from the raw repository data.
     true_dataset = create_dataset(raw_dataset)
 
+    print("🔍 Preparing network models...")
     logging.info("Running analysis on dataset...")
     analyses = [analyze_dataset(dataset=true_dataset, model=model) for model in config.models]
 
+    # If predictions are enabled, run the predictions on the inputs in the config.
+    if options.predict:
+        print("📖 Making predictions...")
+        logging.info("Predicting values in config...")
+        sort_by_accuracy = lambda a: a.get_accuracy()
+        matches_method = lambda x: x.model_type.name.lower() == config.prediction_method
+
+        if config.prediction_method == "best":
+            model = max(analyses, key=sort_by_accuracy)
+            logging.info("Determined that %s is best model.", model.model_type.name.lower())
+        else:
+            model = [x for x in analyses if matches_method(x)][0]
+
+        pred_input: dict
+        for pred_input in config.inputs:
+            logging.info("Predicting commit count for %s with weeksum %s...",
+                         pred_input["name"],
+                         pred_input["commits"])
+            count = model.predict(pred_input["commits"])
+            logging.info("Predicted value of %s.", count)
+            print("Predicted that %s will have %s commits in total."
+                  % (pred_input["name"], int(count)))
+
+    # Create plot images if plot is passed as an argument.
     if options.plot:
         result: TSDataAnalysisResult
         for result in analyses:

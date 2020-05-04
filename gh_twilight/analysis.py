@@ -88,7 +88,7 @@ class TSDataAnalysisResult():
         if "labels" in kwargs:
             self.labels = kwargs["labels"]
 
-    def get_accuracy(self):
+    def get_accuracy(self) -> float:
         """Get the accuracy for this model.
 
         If the acuracy score was not defined during initialization, the score will be calculated
@@ -102,7 +102,7 @@ class TSDataAnalysisResult():
             return r2_score(self.y_test, pred)
         return self.accuracy
 
-    def get_error(self):
+    def get_error(self) -> float:
         """Get the mean squared error for this model.
 
         If the error was not defined during initialization, the error will be calculated with the
@@ -132,6 +132,20 @@ class TSDataAnalysisResult():
         plt.rcParams.update({'font.size': 10})
         plt.savefig("sparkle_analytics_%s.png" % (self.model_type.name))
         plt.clf()
+
+    def predict(self, commits: list):
+        """Predict the total commit count of a weekly sum of commits.
+
+        Arguments:
+            commits (list): A list of integers representing the total number of commits for a given
+                weekday for all weekdays, starting from Sunday.
+
+        Returns:
+            prediction (int): The predicted number of total project commits, rounded to the nearest
+                integer value.
+        """
+        commit_array = np.array(commits).reshape(1, -1)
+        return round(self.model.predict(commit_array)[0])
 
 def create_raw_matrix(raw_dataset: list) -> np.ndarray:
     """Convert a list of GHRepositoryWeeksum objects to a proper numpy array for analysis.

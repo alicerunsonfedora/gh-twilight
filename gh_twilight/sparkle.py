@@ -30,6 +30,10 @@ class TSConfiguration:
 
     study_repos = []
     models = []
+
+    prediction_method = ""
+    inputs = []
+
     git_name = ""
     __api_token = ""
 
@@ -67,6 +71,13 @@ class TSConfiguration:
                 else:
                     raise TSConfigurationError("Invalid model configuration: %s." % (model))
 
+
+            if "predictions" not in s_dict:
+                raise TSConfigurationError("Prediction data missing from config.")
+
+            self.prediction_method = s_dict["predictions"]["method"]
+            self.inputs = s_dict["predictions"]["inputs"]
+
             logging.info("Loaded Sparkle configuration from %s.", path)
 
     def get_token(self) -> str:
@@ -88,6 +99,15 @@ def create_sparkle_data():
             "activities": {
                 "models": [],
                 "repos": []
+            },
+            "predictions": {
+                "method": "best",
+                "inputs": [
+                    {
+                        "name": "example_org/example_repo",
+                        "commits": [0, 0, 0, 0, 0, 0, 0]
+                    }
+                ]
             }
         }
     }
@@ -105,6 +125,11 @@ def create_sparkle_data():
     print("Valid options are: \"linear\", \"forest\", and \"neural\".")
     print("To use multiple models, separate the models with a comma (no spaces).")
     sparkle["config"]["activities"]["models"] = input("Enter your models here: ").split(",")
+
+    # Get the method for prediction.
+    print("How do you want to predict your data?")
+    print("Options are: forest, neural, linear, and best (uses model with highest accuracy).")
+    sparkle["config"]["predictions"]["method"] = input("Enter your prediction method here: ")
     with open("sparkle.toml", "w+") as sparkle_writer:
         sparkle_writer.write(toml.dumps(sparkle))
         logging.info("Written Sparkle file to sparkle.toml.")

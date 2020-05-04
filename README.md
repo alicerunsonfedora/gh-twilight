@@ -37,6 +37,12 @@ repos = [
     "equestria/friendship",
     "equestria/governance",
 ]
+
+[config.predictions]
+method = "best"
+inputs [
+    {name = "example/example", commits = [1, 0, 0, 1, 0, 0, 1]},
+]
 ```
 
 ### Running the tool
@@ -49,3 +55,5 @@ Run `gh-twilight --config <pathToConfigFile>` to run the analysis tool. Graphs w
 - `--generate`: Run the interactive config generator.
 - `--csv`: Export the raw repository dataset as a CSV file.
 - `--json`: Export the raw repository dataset as a JSON file.
+- `--plot`: Graph a plot that demonstrates the accuracy of the testing data.
+- `--predict`: Predict the total project commits in the configuration file.
