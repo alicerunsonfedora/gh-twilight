@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>gh_twilight API documentation</title>
+<meta name="description" content="Project Twilight is a machine learning experiment for my DMC345 (Intro to Machine Learning)
+course that tries to predict a Git repository&#39;s size …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>gh_twilight</code></h1>
+</header>
+<section id="section-intro">
+<p>Project Twilight is a machine learning experiment for my DMC345 (Intro to Machine Learning)
+course that tries to predict a Git repository's size by reading a list of numbers that
+represent commits in a week. This tool makes use of SciKit Learn, matplotlib, and NumPy to
+handle data manipulation and analysis and PyGithub to fetch data from GitHub.</p>
+<h2 id="installation">Installation</h2>
+<h3 id="install-via-pypi-tbd">Install via PyPI (TBD)</h3>
+<p>Run <code>pip install gh-twilight</code> to install the tool to your Python environment.</p>
+<h3 id="build-from-source">Build from source</h3>
+<h4 id="requirements">Requirements</h4>
+<ul>
+<li>Python 3.7 or higher</li>
+<li>Poetry package manager</li>
+</ul>
+<p>Clone the repository and run <code>poetry install</code> in the project root to set up the environment and
+install dependencies.</p>
+<h2 id="creating-a-configuration-file">Creating a configuration file</h2>
+<p>To create the config file that Project Twilight uses, run <code>gh-twilight --generate</code> in your
+terminal. The configuration utility will help you set up some details about what models you
+want to use for training, your GitHub access token, and how you want to predict your data.</p>
+<h2 id="running-the-utility">Running the utility</h2>
+<h3 id="configuration-arguments">Configuration arguments</h3>
+<ul>
+<li><code>--config CONFIG</code>: The path to the configuration file to use.
+<code>--generate</code>: Runs the interactive configuration utility.</li>
+</ul>
+<h3 id="analysis-and-prediction-arguments">Analysis and prediction arguments</h3>
+<ul>
+<li><code>--plot</code>: Creates plot graphs of predicted and testing data from training the network.</li>
+<li><code>--predict</code>: Run predictions on the data provided in the configuration file.</li>
+</ul>
+<h3 id="extra-arguments">Extra arguments</h3>
+<ul>
+<li><code>--log-file LOG_FILE</code>: The path to where you want the logs to be store. Omitting this argument
+will disable logging.</li>
+<li><code>--csv</code>: Exports the raw dataset to a CSV file before analysis.</li>
+<li><code>--json</code>: Exports the raw dataset to a JSON file before analysis.</li>
+</ul>
+<h2 id="sparkle-configuration-file">Sparkle configuration file</h2>
+<p>The configuration file (in TOML syntax) contains important information on how to collect data, what
+data to collect, and how to run analysis and predictions. There are three important keys in the
+configuration file:</p>
+<ul>
+<li><code>config.account</code>: Includes GitHub personal token and Git username.</li>
+<li><code>config.activities</code>: Includes what repository to use as training data and what models to use.</li>
+<li><code>config.predictions</code>: Includes what model to use to make predictions and inputs to predict.</li>
+</ul>
+<h3 id="account-information">Account information</h3>
+<p>The <code>config.account</code> section includes the following keys:</p>
+<ul>
+<li><code>git_name</code>: The Git username that made the commits to the repository</li>
+<li><code>token</code>: The GitHub personal token with the <a title="gh_twilight.repo" href="repo.html"><code>gh_twilight.repo</code></a> permission.</li>
+</ul>
+<h3 id="activity-configuration">Activity configuration</h3>
+<p>The <code>config.activities</code> section includes the following keys:</p>
+<ul>
+<li><code>models</code>: A list of strings containing what models to use. Valid options are <code>forest</code>, <code>neural</code>,
+and <code>linear</code>.</li>
+<li><code>repos</code>: A list of strings containing the repositories on GitHub to use as training data.</li>
+</ul>
+<h3 id="prediction-configuration">Prediction configuration</h3>
+<p>The <code>config.predictions</code> section includes the following keys:</p>
+<ul>
+<li><code>method</code>: The model to use to make predictions. Valid options are <code>forest</code>, <code>neural</code>, <code>linear</code>,
+and <code>best</code>.<ul>
+<li>Using <code>best</code> will automatically determine the best model to use by using the model with the
+highest R2 accuracy score.</li>
+</ul>
+</li>
+<li><code>inputs</code>: A list of dictionaries that contain the input values to predict. The dictionary should
+have the following keys:<ul>
+<li><code>name</code>: The name of the repository. This does <em>not</em> need to point to a real repository on
+GitHub.</li>
+<li><code>commits</code>: A list containing seven integers that represent how many commits are made on the
+weekdays if all weeks are combined. For example, if a user make two commits to a repository
+every day for two weeks, the commits list should be <code>[4, 4, 4, 4, 4, 4, 4]</code>.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>An example configuration may look like the following:</p>
+<pre><code class="toml">[config.account]
+git_name = &quot;Twilight Sparkle&quot;
+token = &quot;githash&quot;
+
+[config.activities]
+models = [ &quot;forest&quot;, &quot;linear&quot; ]
+repos = [ &quot;equestria/friendship.equ&quot;, &quot;equestria/governance&quot; ]
+
+[config.predictions]
+method = &quot;best&quot;
+inputs = [{ name = &quot;equestria/journal&quot;, commits = [1, 13, 9, 8, 7, 12, 8] }]
+</code></pre>
+<h2 id="license">License</h2>
+<p>Project Twilight is free and open-source software licensed under the Mozilla Public License, v2.0.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#
+# Project Twilight Module
+# GitHub Machine Learning Project
+# (C) 2020 Marquis Kurt
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+&#34;&#34;&#34;
+Project Twilight is a machine learning experiment for my DMC345 (Intro to Machine Learning)
+    course that tries to predict a Git repository&#39;s size by reading a list of numbers that
+    represent commits in a week. This tool makes use of SciKit Learn, matplotlib, and NumPy to
+    handle data manipulation and analysis and PyGithub to fetch data from GitHub.
+
+## Installation
+
+### Install via PyPI (TBD)
+Run `pip install gh-twilight` to install the tool to your Python environment.
+
+### Build from source
+
+#### Requirements
+- Python 3.7 or higher
+- Poetry package manager
+
+Clone the repository and run `poetry install` in the project root to set up the environment and
+    install dependencies.
+
+## Creating a configuration file
+
+To create the config file that Project Twilight uses, run `gh-twilight --generate` in your
+    terminal. The configuration utility will help you set up some details about what models you
+    want to use for training, your GitHub access token, and how you want to predict your data.
+
+## Running the utility
+
+### Configuration arguments
+- `--config CONFIG`: The path to the configuration file to use.
+`--generate`: Runs the interactive configuration utility.
+
+### Analysis and prediction arguments
+- `--plot`: Creates plot graphs of predicted and testing data from training the network.
+- `--predict`: Run predictions on the data provided in the configuration file.
+
+### Extra arguments
+- `--log-file LOG_FILE`: The path to where you want the logs to be store. Omitting this argument
+    will disable logging.
+- `--csv`: Exports the raw dataset to a CSV file before analysis.
+- `--json`: Exports the raw dataset to a JSON file before analysis.
+
+## Sparkle configuration file
+The configuration file (in TOML syntax) contains important information on how to collect data, what
+    data to collect, and how to run analysis and predictions. There are three important keys in the
+    configuration file:
+
+- `config.account`: Includes GitHub personal token and Git username.
+- `config.activities`: Includes what repository to use as training data and what models to use.
+- `config.predictions`: Includes what model to use to make predictions and inputs to predict.
+
+### Account information
+The `config.account` section includes the following keys:
+
+- `git_name`: The Git username that made the commits to the repository
+- `token`: The GitHub personal token with the `repo` permission.
+
+### Activity configuration
+The `config.activities` section includes the following keys:
+
+- `models`: A list of strings containing what models to use. Valid options are `forest`, `neural`,
+    and `linear`.
+- `repos`: A list of strings containing the repositories on GitHub to use as training data.
+
+### Prediction configuration
+The `config.predictions` section includes the following keys:
+
+- `method`: The model to use to make predictions. Valid options are `forest`, `neural`, `linear`,
+    and `best`.
+    - Using `best` will automatically determine the best model to use by using the model with the
+        highest R2 accuracy score.
+- `inputs`: A list of dictionaries that contain the input values to predict. The dictionary should
+    have the following keys:
+    - `name`: The name of the repository. This does _not_ need to point to a real repository on
+        GitHub.
+    - `commits`: A list containing seven integers that represent how many commits are made on the
+        weekdays if all weeks are combined. For example, if a user make two commits to a repository
+        every day for two weeks, the commits list should be `[4, 4, 4, 4, 4, 4, 4]`.
+
+---
+
+An example configuration may look like the following:
+```toml
+[config.account]
+git_name = &#34;Twilight Sparkle&#34;
+token = &#34;githash&#34;
+
+[config.activities]
+models = [ &#34;forest&#34;, &#34;linear&#34; ]
+repos = [ &#34;equestria/friendship.equ&#34;, &#34;equestria/governance&#34; ]
+
+[config.predictions]
+method = &#34;best&#34;
+inputs = [{ name = &#34;equestria/journal&#34;, commits = [1, 13, 9, 8, 7, 12, 8] }]
+```
+
+## License
+Project Twilight is free and open-source software licensed under the Mozilla Public License, v2.0.
+&#34;&#34;&#34;
+from .analysis import *
+from .cli import *
+from .commit import *
+from .data import *
+from .repo import *
+from .sparkle import *
+
+__version__ = &#39;0.1.0&#39;</code></pre>
+</details>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="gh_twilight.analysis" href="analysis.html">gh_twilight.analysis</a></code></dt>
+<dd>
+<section class="desc"><p>The analysis submodule contains the utilities and functions necessary for analyzing repository
+data.</p></section>
+</dd>
+<dt><code class="name"><a title="gh_twilight.cli" href="cli.html">gh_twilight.cli</a></code></dt>
+<dd>
+<section class="desc"><p>The main module contains the utilities necessary to handle the command-line logic for the
+tool.</p></section>
+</dd>
+<dt><code class="name"><a title="gh_twilight.commit" href="commit.html">gh_twilight.commit</a></code></dt>
+<dd>
+<section class="desc"><p>The commit submodule contains the data structure for a week in commits.</p></section>
+</dd>
+<dt><code class="name"><a title="gh_twilight.data" href="data.html">gh_twilight.data</a></code></dt>
+<dd>
+<section class="desc"><p>The data submodule contains the utilities and classes needed to gather data from GitHub.</p></section>
+</dd>
+<dt><code class="name"><a title="gh_twilight.repo" href="repo.html">gh_twilight.repo</a></code></dt>
+<dd>
+<section class="desc"><p>The repo submodule contains the data structure for a repository for analysis.</p></section>
+</dd>
+<dt><code class="name"><a title="gh_twilight.sparkle" href="sparkle.html">gh_twilight.sparkle</a></code></dt>
+<dd>
+<section class="desc"><p>The sparkle submodule contains the utilities necessary for handling Sparkle configurations
+for use with the main program.</p></section>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#install-via-pypi-tbd">Install via PyPI (TBD)</a></li>
+<li><a href="#build-from-source">Build from source</a><ul>
+<li><a href="#requirements">Requirements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#creating-a-configuration-file">Creating a configuration file</a></li>
+<li><a href="#running-the-utility">Running the utility</a><ul>
+<li><a href="#configuration-arguments">Configuration arguments</a></li>
+<li><a href="#analysis-and-prediction-arguments">Analysis and prediction arguments</a></li>
+<li><a href="#extra-arguments">Extra arguments</a></li>
+</ul>
+</li>
+<li><a href="#sparkle-configuration-file">Sparkle configuration file</a><ul>
+<li><a href="#account-information">Account information</a></li>
+<li><a href="#activity-configuration">Activity configuration</a></li>
+<li><a href="#prediction-configuration">Prediction configuration</a></li>
+</ul>
+</li>
+<li><a href="#license">License</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="gh_twilight.analysis" href="analysis.html">gh_twilight.analysis</a></code></li>
+<li><code><a title="gh_twilight.cli" href="cli.html">gh_twilight.cli</a></code></li>
+<li><code><a title="gh_twilight.commit" href="commit.html">gh_twilight.commit</a></code></li>
+<li><code><a title="gh_twilight.data" href="data.html">gh_twilight.data</a></code></li>
+<li><code><a title="gh_twilight.repo" href="repo.html">gh_twilight.repo</a></code></li>
+<li><code><a title="gh_twilight.sparkle" href="sparkle.html">gh_twilight.sparkle</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

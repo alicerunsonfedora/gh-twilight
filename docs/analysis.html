@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>gh_twilight.analysis API documentation</title>
+<meta name="description" content="The analysis submodule contains the utilities and functions necessary for analyzing repository
+data." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>gh_twilight.analysis</code></h1>
+</header>
+<section id="section-intro">
+<p>The analysis submodule contains the utilities and functions necessary for analyzing repository
+data.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#
+# Data Analysis
+# GitHub Machine Learning Project
+# (C) 2020 Marquis Kurt
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+
+&#34;&#34;&#34;The analysis submodule contains the utilities and functions necessary for analyzing repository
+    data.&#34;&#34;&#34;
+from enum import IntEnum
+from typing import Union
+import logging
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.neural_network import MLPRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+from matplotlib import pyplot as plt
+from gh_twilight.repo import GHRepositoryWeeksum
+
+class TSDataModel(IntEnum):
+    &#34;&#34;&#34;An enumeration for the type of data model to analyze with.
+
+    Attributes:
+        LINEAR (int): Used for the linear regression model.
+        NEURAL (int): Used for a neural network with two layers and ten nodes per layer with an
+            alpha of 0.1.
+        FOREST (int): Used for the random forest regression model.
+    &#34;&#34;&#34;
+    LINEAR = 0
+    NEURAL = 1
+    FOREST = 2
+
+class TSDatasetGenerateError(Exception):
+    &#34;&#34;&#34;Could not create the analysis dataset.&#34;&#34;&#34;
+
+class TSDataAnalysisError(Exception):
+    &#34;&#34;&#34;Could not analyze the dataset.&#34;&#34;&#34;
+
+class TSDataAnalysisResult():
+    &#34;&#34;&#34;A data structure that holds the results of a given analysis.&#34;&#34;&#34;
+
+    def __init__(self, model_type: TSDataModel,
+                 model: Union[MLPRegressor, LinearRegression, RandomForestRegressor],
+                 **kwargs):
+        &#34;&#34;&#34;Initialize an analysis result.
+
+        Args:
+            model_type (TSDataModel): The type of model used.
+            model (Union[MLPRegressor, LinearRegression, RandomForestRegressor]): The regression
+                model that was used.
+            **kwargs: Arbitrary keyword arguments.
+
+        Kwargs:
+            accuracy (float): The accuracy score of this model.
+            data (dict): A dictionary containing the dataset.
+            error (float): The mean squared error of this model.
+            labels (list): A list containing the names of the repositories.
+            training_data (tuple): A tuple containing the training data for X and y.
+            testing_data (tuple): A tuple containing the testing data for X and y.
+        &#34;&#34;&#34;
+        self.model_type = model_type
+        self.model = model
+
+        if &#34;accuracy&#34; in kwargs:
+            self.accuracy = kwargs[&#34;accuracy&#34;]
+
+        if &#34;error&#34; in kwargs:
+            self.error = kwargs[&#34;error&#34;]
+
+        missing_dataset = [x in kwargs for x in [&#34;data&#34;, &#34;training_data&#34;, &#34;testing_data&#34;, &#34;labels&#34;]]
+        if True not in missing_dataset:
+            raise TSDataAnalysisError(&#34;Not enough information to set up the analysis result.&#34;)
+
+        if &#34;data&#34; in kwargs:
+            self.labels = kwargs[&#34;data&#34;][&#34;targets&#34;]
+
+            X, y = kwargs[&#34;data&#34;][&#34;data&#34;]   #pylint:disable=invalid-name
+            self.x_train, self.y_train, self.x_test, self.y_test = train_test_split(X, y,
+                                                                                    test_size=0.2)
+
+        if &#34;training_data&#34; in kwargs:
+            self.x_train, self.y_train = kwargs[&#34;training_data&#34;]
+
+        if &#34;testing_data&#34; in kwargs:
+            self.x_test, self.y_test = kwargs[&#34;testing_data&#34;]
+
+        if &#34;labels&#34; in kwargs:
+            self.labels = kwargs[&#34;labels&#34;]
+
+    def get_accuracy(self) -&gt; float:
+        &#34;&#34;&#34;Get the accuracy for this model.
+
+        If the acuracy score was not defined during initialization, the score will be calculated
+            with the data model and testing data.
+
+        Returns:
+            accuracy (float): The R2 accuracy score of this model.
+        &#34;&#34;&#34;
+        if not self.accuracy:
+            pred = self.model.predict(self.x_test)
+            return r2_score(self.y_test, pred)
+        return self.accuracy
+
+    def get_error(self) -&gt; float:
+        &#34;&#34;&#34;Get the mean squared error for this model.
+
+        If the error was not defined during initialization, the error will be calculated with the
+            data model and testing data.
+
+        Returns:
+            error (float): The mean squared error of this model.
+        &#34;&#34;&#34;
+        if not self.error:
+            pred = self.model.predict(self.x_test)
+            return mean_squared_error(self.y_test, pred)
+        return self.error
+
+    def plot(self):
+        &#34;&#34;&#34;Create a plot that shows the predictions and actual results of the test data.
+
+        The model will graph the test sample and the predictions generated from it and will be
+            saved as &#34;sparkle_analytics_X.png&#34;, where X represents the model being used.
+
+        To save space on the labels, the organization name is removed from the repository name.
+        &#34;&#34;&#34;
+        if &#34;labels&#34; not in self.__dict__:
+            raise TSDataAnalysisError(&#34;Missing labels for data plot.&#34;)
+
+        x_axis = self.x_test.shape[0]
+        p_labels = [x.split(&#34;/&#34;)[1] for x in self.labels[(-1 * x_axis):]]
+        plt.scatter(np.arange(x_axis), self.y_test, color=&#34;black&#34;)
+        plt.plot(np.arange(x_axis), self.model.predict(self.x_test))
+        plt.ylabel(&#34;Total project commits&#34;)
+        plt.xlabel(&#34;Projects&#34;)
+        plt.xticks(np.arange(x_axis), p_labels, rotation=90)
+        plt.tight_layout()
+        plt.rcParams.update({&#39;font.size&#39;: 10})
+        plt.savefig(&#34;sparkle_analytics_%s.png&#34; % (self.model_type.name))
+        plt.clf()
+
+    def predict(self, commits: list) -&gt; float:
+        &#34;&#34;&#34;Predict the total commit count of a weekly sum of commits.
+
+        The prediction will round to the nearest integer value.
+
+        Args:
+            commits (list): A list of integers representing the total number of commits for a given
+                weekday for all weekdays, starting from Sunday.
+
+        Returns:
+            prediction (float): The predicted number of total project commits.
+        &#34;&#34;&#34;
+        commit_array = np.array(commits).reshape(1, -1)
+        return round(self.model.predict(commit_array)[0])
+
+def create_raw_matrix(raw_dataset: list) -&gt; np.ndarray:
+    &#34;&#34;&#34;Convert a list of GHRepositoryWeeksum objects to a proper numpy array for analysis.
+
+    Args:
+        raw_dataset (list): The list of GHRepositoryWeeksum objects to convert
+
+    Returns:
+        matr (ndarray): A NumPy array that contains all of the weekday commit numbers for
+            every repository in the list.
+    &#34;&#34;&#34;
+    repository: GHRepositoryWeeksum
+    matr = None
+    for repository in raw_dataset:
+        repo_array = np.array(repository.weeksum.to_list())
+        matr = np.vstack([matr, repo_array]) if matr is not None else repo_array
+
+    if matr is None:
+        matr = np.empty((1, 1))
+    return matr
+
+def create_dataset(raw: list) -&gt; dict:
+    &#34;&#34;&#34;Create a dataset used for numpy analysis from a repository dataset list.
+
+    Args:
+        raw (list): The list of GHRepositoryWeeksum objects to create a dataset for
+
+    Returns:
+        data (dict): A dictionary containing the dataset, as well as targets and features.
+            The dictionary contains three keys: `targets`, for the name of the repositories,
+            `features`, for the weekday names on each commit in the list, and `data, a tuple
+            containing the commit weeksums (X) and the total number of commits for the project (Y).
+    &#34;&#34;&#34;
+    dataset = {
+        &#34;targets&#34;: [x.name for x in raw],
+        &#34;features&#34;: [&#34;Sunday&#34;, &#34;Monday&#34;, &#34;Tuesday&#34;, &#34;Wednesday&#34;, &#34;Thursday&#34;, &#34;Friday&#34;, &#34;Saturday&#34;],
+        &#34;data&#34;: (create_raw_matrix(raw), np.array([x.abstotal for x in raw]))
+    }
+    return dataset
+
+def analyze_dataset(dataset: dict, model: TSDataModel):
+    &#34;&#34;&#34;Analyze a given dataset using a model.
+
+    The analysis utility will split the data to training and testing data with an 80/20 split and
+        selects an appropriate model to predict the total project commit values.
+
+    Args:
+        dataset (tuple): A dictionary that represents the repository dataset to use for analysis.
+        model (TSDataModel): The data model type to use.
+
+    Returns:
+        result (TSDataAnalysisResult): The results of this data analysis.
+    &#34;&#34;&#34;
+    X, y = dataset[&#34;data&#34;] #pylint:disable=invalid-name
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0) #pylint:disable=invalid-name
+    logging.info(&#34;Dataset split to training and test sets. Sizes: %s (train), %s (test)&#34;,
+                 X_train.shape[0],
+                 X_test.shape[0])
+
+    if model == TSDataModel.LINEAR:
+        logging.info(&#34;Linear model selected. Creating a regression model...&#34;)
+        a_model = LinearRegression()
+    elif model == TSDataModel.NEURAL:
+        logging.info(&#34;Neural network model selected. Creating a regression model...&#34;)
+        a_model = MLPRegressor(solver=&#34;lbfgs&#34;,
+                               alpha=0.001,
+                               hidden_layer_sizes=(10, 2),
+                               max_iter=5000,
+                               random_state=None)
+    elif model == TSDataModel.FOREST:
+        logging.info(&#34;Random forest model selected. Creating a regression model...&#34;)
+        a_model = RandomForestRegressor(random_state=None)
+    else:
+        raise TSDataAnalysisError(&#34;Invalid model selected: %s.&#34; % (model))
+
+    a_model.fit(X_train, y_train)
+    logging.info(&#34;Model fitted to training data.&#34;)
+    logging.info(&#34;Applying testing data...&#34;)
+    predictions = a_model.predict(X_test)
+    logging.info(&#34;Predicted total commits from testing data: %s.&#34;, predictions)
+
+    data_mse = mean_squared_error(y_test, predictions)
+    logging.info(&#34;Model predicted test data with a MSE of %s. &#34;, data_mse)
+
+    data_r2_score = r2_score(y_test, predictions)
+    if data_r2_score &lt; 0.7:
+        logging.log(logging.WARN, &#34;Model accuracy is less than 75 percent;&#34; #pylint:disable=logging-not-lazy
+                    + &#34; the current model scores with %s percent accuracy.&#34;,
+                    round(data_r2_score * 100, 2))
+    else:
+        logging.info(&#34;Model predicted test data with a R2 score of %s percent.&#34;,
+                     round(data_r2_score * 100, 2))
+    return TSDataAnalysisResult(model_type=model,
+                                model=a_model,
+                                accuracy=data_r2_score,
+                                error=data_mse,
+                                training_data=(X_train, y_train),
+                                testing_data=(X_test, y_test),
+                                labels=dataset[&#34;targets&#34;])</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="gh_twilight.analysis.analyze_dataset"><code class="name flex">
+<span>def <span class="ident">analyze_dataset</span></span>(<span>dataset, model)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Analyze a given dataset using a model.</p>
+<p>The analysis utility will split the data to training and testing data with an 80/20 split and
+selects an appropriate model to predict the total project commit values.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>A dictionary that represents the repository dataset to use for analysis.</dd>
+<dt><strong><code>model</code></strong> :&ensp;<a title="gh_twilight.analysis.TSDataModel" href="#gh_twilight.analysis.TSDataModel"><code>TSDataModel</code></a></dt>
+<dd>The data model type to use.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>result</code></strong> :&ensp;<a title="gh_twilight.analysis.TSDataAnalysisResult" href="#gh_twilight.analysis.TSDataAnalysisResult"><code>TSDataAnalysisResult</code></a></dt>
+<dd>The results of this data analysis.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def analyze_dataset(dataset: dict, model: TSDataModel):
+    &#34;&#34;&#34;Analyze a given dataset using a model.
+
+    The analysis utility will split the data to training and testing data with an 80/20 split and
+        selects an appropriate model to predict the total project commit values.
+
+    Args:
+        dataset (tuple): A dictionary that represents the repository dataset to use for analysis.
+        model (TSDataModel): The data model type to use.
+
+    Returns:
+        result (TSDataAnalysisResult): The results of this data analysis.
+    &#34;&#34;&#34;
+    X, y = dataset[&#34;data&#34;] #pylint:disable=invalid-name
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0) #pylint:disable=invalid-name
+    logging.info(&#34;Dataset split to training and test sets. Sizes: %s (train), %s (test)&#34;,
+                 X_train.shape[0],
+                 X_test.shape[0])
+
+    if model == TSDataModel.LINEAR:
+        logging.info(&#34;Linear model selected. Creating a regression model...&#34;)
+        a_model = LinearRegression()
+    elif model == TSDataModel.NEURAL:
+        logging.info(&#34;Neural network model selected. Creating a regression model...&#34;)
+        a_model = MLPRegressor(solver=&#34;lbfgs&#34;,
+                               alpha=0.001,
+                               hidden_layer_sizes=(10, 2),
+                               max_iter=5000,
+                               random_state=None)
+    elif model == TSDataModel.FOREST:
+        logging.info(&#34;Random forest model selected. Creating a regression model...&#34;)
+        a_model = RandomForestRegressor(random_state=None)
+    else:
+        raise TSDataAnalysisError(&#34;Invalid model selected: %s.&#34; % (model))
+
+    a_model.fit(X_train, y_train)
+    logging.info(&#34;Model fitted to training data.&#34;)
+    logging.info(&#34;Applying testing data...&#34;)
+    predictions = a_model.predict(X_test)
+    logging.info(&#34;Predicted total commits from testing data: %s.&#34;, predictions)
+
+    data_mse = mean_squared_error(y_test, predictions)
+    logging.info(&#34;Model predicted test data with a MSE of %s. &#34;, data_mse)
+
+    data_r2_score = r2_score(y_test, predictions)
+    if data_r2_score &lt; 0.7:
+        logging.log(logging.WARN, &#34;Model accuracy is less than 75 percent;&#34; #pylint:disable=logging-not-lazy
+                    + &#34; the current model scores with %s percent accuracy.&#34;,
+                    round(data_r2_score * 100, 2))
+    else:
+        logging.info(&#34;Model predicted test data with a R2 score of %s percent.&#34;,
+                     round(data_r2_score * 100, 2))
+    return TSDataAnalysisResult(model_type=model,
+                                model=a_model,
+                                accuracy=data_r2_score,
+                                error=data_mse,
+                                training_data=(X_train, y_train),
+                                testing_data=(X_test, y_test),
+                                labels=dataset[&#34;targets&#34;])</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.analysis.create_dataset"><code class="name flex">
+<span>def <span class="ident">create_dataset</span></span>(<span>raw)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a dataset used for numpy analysis from a repository dataset list.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>raw</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of GHRepositoryWeeksum objects to create a dataset for</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>A dictionary containing the dataset, as well as targets and features.
+The dictionary contains three keys: <code>targets</code>, for the name of the repositories,
+<code>features</code>, for the weekday names on each commit in the list, and `data, a tuple
+containing the commit weeksums (X) and the total number of commits for the project (Y).</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_dataset(raw: list) -&gt; dict:
+    &#34;&#34;&#34;Create a dataset used for numpy analysis from a repository dataset list.
+
+    Args:
+        raw (list): The list of GHRepositoryWeeksum objects to create a dataset for
+
+    Returns:
+        data (dict): A dictionary containing the dataset, as well as targets and features.
+            The dictionary contains three keys: `targets`, for the name of the repositories,
+            `features`, for the weekday names on each commit in the list, and `data, a tuple
+            containing the commit weeksums (X) and the total number of commits for the project (Y).
+    &#34;&#34;&#34;
+    dataset = {
+        &#34;targets&#34;: [x.name for x in raw],
+        &#34;features&#34;: [&#34;Sunday&#34;, &#34;Monday&#34;, &#34;Tuesday&#34;, &#34;Wednesday&#34;, &#34;Thursday&#34;, &#34;Friday&#34;, &#34;Saturday&#34;],
+        &#34;data&#34;: (create_raw_matrix(raw), np.array([x.abstotal for x in raw]))
+    }
+    return dataset</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.analysis.create_raw_matrix"><code class="name flex">
+<span>def <span class="ident">create_raw_matrix</span></span>(<span>raw_dataset)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Convert a list of GHRepositoryWeeksum objects to a proper numpy array for analysis.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>raw_dataset</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of GHRepositoryWeeksum objects to convert</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>matr</code></strong> :&ensp;<code>ndarray</code></dt>
+<dd>A NumPy array that contains all of the weekday commit numbers for
+every repository in the list.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_raw_matrix(raw_dataset: list) -&gt; np.ndarray:
+    &#34;&#34;&#34;Convert a list of GHRepositoryWeeksum objects to a proper numpy array for analysis.
+
+    Args:
+        raw_dataset (list): The list of GHRepositoryWeeksum objects to convert
+
+    Returns:
+        matr (ndarray): A NumPy array that contains all of the weekday commit numbers for
+            every repository in the list.
+    &#34;&#34;&#34;
+    repository: GHRepositoryWeeksum
+    matr = None
+    for repository in raw_dataset:
+        repo_array = np.array(repository.weeksum.to_list())
+        matr = np.vstack([matr, repo_array]) if matr is not None else repo_array
+
+    if matr is None:
+        matr = np.empty((1, 1))
+    return matr</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="gh_twilight.analysis.TSDataAnalysisError"><code class="flex name class">
+<span>class <span class="ident">TSDataAnalysisError</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Could not analyze the dataset.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TSDataAnalysisError(Exception):
+    &#34;&#34;&#34;Could not analyze the dataset.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="gh_twilight.analysis.TSDataAnalysisResult"><code class="flex name class">
+<span>class <span class="ident">TSDataAnalysisResult</span></span>
+<span>(</span><span>model_type, model, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>A data structure that holds the results of a given analysis.</p>
+<p>Initialize an analysis result.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model_type</code></strong> :&ensp;<a title="gh_twilight.analysis.TSDataModel" href="#gh_twilight.analysis.TSDataModel"><code>TSDataModel</code></a></dt>
+<dd>The type of model used.</dd>
+<dt><strong><code>model</code></strong> :&ensp;<code>Union</code>[<code>MLPRegressor</code>, <code>LinearRegression</code>, <code>RandomForestRegressor</code>]</dt>
+<dd>The regression
+model that was used.</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Arbitrary keyword arguments.</dd>
+</dl>
+<h2 id="kwargs">Kwargs</h2>
+<dl>
+<dt><strong><code>accuracy</code></strong> :&ensp;<code>float</code></dt>
+<dd>The accuracy score of this model.</dd>
+<dt><strong><code>data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>A dictionary containing the dataset.</dd>
+<dt><strong><code>error</code></strong> :&ensp;<code>float</code></dt>
+<dd>The mean squared error of this model.</dd>
+<dt><strong><code>labels</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list containing the names of the repositories.</dd>
+<dt><strong><code>training_data</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>A tuple containing the training data for X and y.</dd>
+<dt><strong><code>testing_data</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>A tuple containing the testing data for X and y.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TSDataAnalysisResult():
+    &#34;&#34;&#34;A data structure that holds the results of a given analysis.&#34;&#34;&#34;
+
+    def __init__(self, model_type: TSDataModel,
+                 model: Union[MLPRegressor, LinearRegression, RandomForestRegressor],
+                 **kwargs):
+        &#34;&#34;&#34;Initialize an analysis result.
+
+        Args:
+            model_type (TSDataModel): The type of model used.
+            model (Union[MLPRegressor, LinearRegression, RandomForestRegressor]): The regression
+                model that was used.
+            **kwargs: Arbitrary keyword arguments.
+
+        Kwargs:
+            accuracy (float): The accuracy score of this model.
+            data (dict): A dictionary containing the dataset.
+            error (float): The mean squared error of this model.
+            labels (list): A list containing the names of the repositories.
+            training_data (tuple): A tuple containing the training data for X and y.
+            testing_data (tuple): A tuple containing the testing data for X and y.
+        &#34;&#34;&#34;
+        self.model_type = model_type
+        self.model = model
+
+        if &#34;accuracy&#34; in kwargs:
+            self.accuracy = kwargs[&#34;accuracy&#34;]
+
+        if &#34;error&#34; in kwargs:
+            self.error = kwargs[&#34;error&#34;]
+
+        missing_dataset = [x in kwargs for x in [&#34;data&#34;, &#34;training_data&#34;, &#34;testing_data&#34;, &#34;labels&#34;]]
+        if True not in missing_dataset:
+            raise TSDataAnalysisError(&#34;Not enough information to set up the analysis result.&#34;)
+
+        if &#34;data&#34; in kwargs:
+            self.labels = kwargs[&#34;data&#34;][&#34;targets&#34;]
+
+            X, y = kwargs[&#34;data&#34;][&#34;data&#34;]   #pylint:disable=invalid-name
+            self.x_train, self.y_train, self.x_test, self.y_test = train_test_split(X, y,
+                                                                                    test_size=0.2)
+
+        if &#34;training_data&#34; in kwargs:
+            self.x_train, self.y_train = kwargs[&#34;training_data&#34;]
+
+        if &#34;testing_data&#34; in kwargs:
+            self.x_test, self.y_test = kwargs[&#34;testing_data&#34;]
+
+        if &#34;labels&#34; in kwargs:
+            self.labels = kwargs[&#34;labels&#34;]
+
+    def get_accuracy(self) -&gt; float:
+        &#34;&#34;&#34;Get the accuracy for this model.
+
+        If the acuracy score was not defined during initialization, the score will be calculated
+            with the data model and testing data.
+
+        Returns:
+            accuracy (float): The R2 accuracy score of this model.
+        &#34;&#34;&#34;
+        if not self.accuracy:
+            pred = self.model.predict(self.x_test)
+            return r2_score(self.y_test, pred)
+        return self.accuracy
+
+    def get_error(self) -&gt; float:
+        &#34;&#34;&#34;Get the mean squared error for this model.
+
+        If the error was not defined during initialization, the error will be calculated with the
+            data model and testing data.
+
+        Returns:
+            error (float): The mean squared error of this model.
+        &#34;&#34;&#34;
+        if not self.error:
+            pred = self.model.predict(self.x_test)
+            return mean_squared_error(self.y_test, pred)
+        return self.error
+
+    def plot(self):
+        &#34;&#34;&#34;Create a plot that shows the predictions and actual results of the test data.
+
+        The model will graph the test sample and the predictions generated from it and will be
+            saved as &#34;sparkle_analytics_X.png&#34;, where X represents the model being used.
+
+        To save space on the labels, the organization name is removed from the repository name.
+        &#34;&#34;&#34;
+        if &#34;labels&#34; not in self.__dict__:
+            raise TSDataAnalysisError(&#34;Missing labels for data plot.&#34;)
+
+        x_axis = self.x_test.shape[0]
+        p_labels = [x.split(&#34;/&#34;)[1] for x in self.labels[(-1 * x_axis):]]
+        plt.scatter(np.arange(x_axis), self.y_test, color=&#34;black&#34;)
+        plt.plot(np.arange(x_axis), self.model.predict(self.x_test))
+        plt.ylabel(&#34;Total project commits&#34;)
+        plt.xlabel(&#34;Projects&#34;)
+        plt.xticks(np.arange(x_axis), p_labels, rotation=90)
+        plt.tight_layout()
+        plt.rcParams.update({&#39;font.size&#39;: 10})
+        plt.savefig(&#34;sparkle_analytics_%s.png&#34; % (self.model_type.name))
+        plt.clf()
+
+    def predict(self, commits: list) -&gt; float:
+        &#34;&#34;&#34;Predict the total commit count of a weekly sum of commits.
+
+        The prediction will round to the nearest integer value.
+
+        Args:
+            commits (list): A list of integers representing the total number of commits for a given
+                weekday for all weekdays, starting from Sunday.
+
+        Returns:
+            prediction (float): The predicted number of total project commits.
+        &#34;&#34;&#34;
+        commit_array = np.array(commits).reshape(1, -1)
+        return round(self.model.predict(commit_array)[0])</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="gh_twilight.analysis.TSDataAnalysisResult.get_accuracy"><code class="name flex">
+<span>def <span class="ident">get_accuracy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get the accuracy for this model.</p>
+<p>If the acuracy score was not defined during initialization, the score will be calculated
+with the data model and testing data.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>accuracy</code></strong> :&ensp;<code>float</code></dt>
+<dd>The R2 accuracy score of this model.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_accuracy(self) -&gt; float:
+    &#34;&#34;&#34;Get the accuracy for this model.
+
+    If the acuracy score was not defined during initialization, the score will be calculated
+        with the data model and testing data.
+
+    Returns:
+        accuracy (float): The R2 accuracy score of this model.
+    &#34;&#34;&#34;
+    if not self.accuracy:
+        pred = self.model.predict(self.x_test)
+        return r2_score(self.y_test, pred)
+    return self.accuracy</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.analysis.TSDataAnalysisResult.get_error"><code class="name flex">
+<span>def <span class="ident">get_error</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Get the mean squared error for this model.</p>
+<p>If the error was not defined during initialization, the error will be calculated with the
+data model and testing data.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>error</code></strong> :&ensp;<code>float</code></dt>
+<dd>The mean squared error of this model.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_error(self) -&gt; float:
+    &#34;&#34;&#34;Get the mean squared error for this model.
+
+    If the error was not defined during initialization, the error will be calculated with the
+        data model and testing data.
+
+    Returns:
+        error (float): The mean squared error of this model.
+    &#34;&#34;&#34;
+    if not self.error:
+        pred = self.model.predict(self.x_test)
+        return mean_squared_error(self.y_test, pred)
+    return self.error</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.analysis.TSDataAnalysisResult.plot"><code class="name flex">
+<span>def <span class="ident">plot</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create a plot that shows the predictions and actual results of the test data.</p>
+<p>The model will graph the test sample and the predictions generated from it and will be
+saved as "sparkle_analytics_X.png", where X represents the model being used.</p>
+<p>To save space on the labels, the organization name is removed from the repository name.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot(self):
+    &#34;&#34;&#34;Create a plot that shows the predictions and actual results of the test data.
+
+    The model will graph the test sample and the predictions generated from it and will be
+        saved as &#34;sparkle_analytics_X.png&#34;, where X represents the model being used.
+
+    To save space on the labels, the organization name is removed from the repository name.
+    &#34;&#34;&#34;
+    if &#34;labels&#34; not in self.__dict__:
+        raise TSDataAnalysisError(&#34;Missing labels for data plot.&#34;)
+
+    x_axis = self.x_test.shape[0]
+    p_labels = [x.split(&#34;/&#34;)[1] for x in self.labels[(-1 * x_axis):]]
+    plt.scatter(np.arange(x_axis), self.y_test, color=&#34;black&#34;)
+    plt.plot(np.arange(x_axis), self.model.predict(self.x_test))
+    plt.ylabel(&#34;Total project commits&#34;)
+    plt.xlabel(&#34;Projects&#34;)
+    plt.xticks(np.arange(x_axis), p_labels, rotation=90)
+    plt.tight_layout()
+    plt.rcParams.update({&#39;font.size&#39;: 10})
+    plt.savefig(&#34;sparkle_analytics_%s.png&#34; % (self.model_type.name))
+    plt.clf()</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.analysis.TSDataAnalysisResult.predict"><code class="name flex">
+<span>def <span class="ident">predict</span></span>(<span>self, commits)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Predict the total commit count of a weekly sum of commits.</p>
+<p>The prediction will round to the nearest integer value.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>commits</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of integers representing the total number of commits for a given
+weekday for all weekdays, starting from Sunday.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>prediction</code></strong> :&ensp;<code>float</code></dt>
+<dd>The predicted number of total project commits.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def predict(self, commits: list) -&gt; float:
+    &#34;&#34;&#34;Predict the total commit count of a weekly sum of commits.
+
+    The prediction will round to the nearest integer value.
+
+    Args:
+        commits (list): A list of integers representing the total number of commits for a given
+            weekday for all weekdays, starting from Sunday.
+
+    Returns:
+        prediction (float): The predicted number of total project commits.
+    &#34;&#34;&#34;
+    commit_array = np.array(commits).reshape(1, -1)
+    return round(self.model.predict(commit_array)[0])</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="gh_twilight.analysis.TSDataModel"><code class="flex name class">
+<span>class <span class="ident">TSDataModel</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An enumeration for the type of data model to analyze with.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>LINEAR</code></strong> :&ensp;<code>int</code></dt>
+<dd>Used for the linear regression model.</dd>
+<dt><strong><code>NEURAL</code></strong> :&ensp;<code>int</code></dt>
+<dd>Used for a neural network with two layers and ten nodes per layer with an
+alpha of 0.1.</dd>
+<dt><strong><code>FOREST</code></strong> :&ensp;<code>int</code></dt>
+<dd>Used for the random forest regression model.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TSDataModel(IntEnum):
+    &#34;&#34;&#34;An enumeration for the type of data model to analyze with.
+
+    Attributes:
+        LINEAR (int): Used for the linear regression model.
+        NEURAL (int): Used for a neural network with two layers and ten nodes per layer with an
+            alpha of 0.1.
+        FOREST (int): Used for the random forest regression model.
+    &#34;&#34;&#34;
+    LINEAR = 0
+    NEURAL = 1
+    FOREST = 2</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="gh_twilight.analysis.TSDataModel.FOREST"><code class="name">var <span class="ident">FOREST</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="gh_twilight.analysis.TSDataModel.LINEAR"><code class="name">var <span class="ident">LINEAR</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+<dt id="gh_twilight.analysis.TSDataModel.NEURAL"><code class="name">var <span class="ident">NEURAL</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+</dd>
+<dt id="gh_twilight.analysis.TSDatasetGenerateError"><code class="flex name class">
+<span>class <span class="ident">TSDatasetGenerateError</span></span>
+<span>(</span><span>...)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Could not create the analysis dataset.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TSDatasetGenerateError(Exception):
+    &#34;&#34;&#34;Could not create the analysis dataset.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="gh_twilight" href="index.html">gh_twilight</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="gh_twilight.analysis.analyze_dataset" href="#gh_twilight.analysis.analyze_dataset">analyze_dataset</a></code></li>
+<li><code><a title="gh_twilight.analysis.create_dataset" href="#gh_twilight.analysis.create_dataset">create_dataset</a></code></li>
+<li><code><a title="gh_twilight.analysis.create_raw_matrix" href="#gh_twilight.analysis.create_raw_matrix">create_raw_matrix</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="gh_twilight.analysis.TSDataAnalysisError" href="#gh_twilight.analysis.TSDataAnalysisError">TSDataAnalysisError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="gh_twilight.analysis.TSDataAnalysisResult" href="#gh_twilight.analysis.TSDataAnalysisResult">TSDataAnalysisResult</a></code></h4>
+<ul class="">
+<li><code><a title="gh_twilight.analysis.TSDataAnalysisResult.get_accuracy" href="#gh_twilight.analysis.TSDataAnalysisResult.get_accuracy">get_accuracy</a></code></li>
+<li><code><a title="gh_twilight.analysis.TSDataAnalysisResult.get_error" href="#gh_twilight.analysis.TSDataAnalysisResult.get_error">get_error</a></code></li>
+<li><code><a title="gh_twilight.analysis.TSDataAnalysisResult.plot" href="#gh_twilight.analysis.TSDataAnalysisResult.plot">plot</a></code></li>
+<li><code><a title="gh_twilight.analysis.TSDataAnalysisResult.predict" href="#gh_twilight.analysis.TSDataAnalysisResult.predict">predict</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="gh_twilight.analysis.TSDataModel" href="#gh_twilight.analysis.TSDataModel">TSDataModel</a></code></h4>
+<ul class="">
+<li><code><a title="gh_twilight.analysis.TSDataModel.FOREST" href="#gh_twilight.analysis.TSDataModel.FOREST">FOREST</a></code></li>
+<li><code><a title="gh_twilight.analysis.TSDataModel.LINEAR" href="#gh_twilight.analysis.TSDataModel.LINEAR">LINEAR</a></code></li>
+<li><code><a title="gh_twilight.analysis.TSDataModel.NEURAL" href="#gh_twilight.analysis.TSDataModel.NEURAL">NEURAL</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="gh_twilight.analysis.TSDatasetGenerateError" href="#gh_twilight.analysis.TSDatasetGenerateError">TSDatasetGenerateError</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

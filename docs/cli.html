@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.5" />
+<title>gh_twilight.cli API documentation</title>
+<meta name="description" content="The main module contains the utilities necessary to handle the command-line logic for the
+tool." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>gh_twilight.cli</code></h1>
+</header>
+<section id="section-intro">
+<p>The main module contains the utilities necessary to handle the command-line logic for the
+tool.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">#
+# Main Entry Point
+# GitHub Machine Learning Project
+# (C) 2020 Marquis Kurt
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+
+&#34;&#34;&#34;The main module contains the utilities necessary to handle the command-line logic for the
+    tool.&#34;&#34;&#34;
+import csv
+import sys
+import logging
+import json
+from argparse import ArgumentParser
+from random import shuffle
+from gh_twilight.data import GithubMLDataCollector
+from gh_twilight.repo import GHRepositoryWeeksum
+from gh_twilight.sparkle import TSConfiguration, TSConfigurationError, create_sparkle_data
+from gh_twilight.analysis import create_dataset, analyze_dataset, TSDataAnalysisResult
+
+def sparkle_args() -&gt; ArgumentParser:
+    &#34;&#34;&#34;Create the argument parser for Twilight.&#34;&#34;&#34;
+    sarg = ArgumentParser(&#34;Predict a repository&#39;s size based on a contributor&#39;s commit history.&#34;)
+    sarg.add_argument(&#34;--config&#34;,
+                      nargs=1,
+                      help=&#34;The path to the configuration file to read from.&#34;)
+    sarg.add_argument(&#34;--log-file&#34;,
+                      nargs=1,
+                      help=&#34;The path to where a log file should be created.&#34;)
+    sarg.add_argument(&#34;--csv&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Create a CSV file that contains the dataset.&#34;)
+    sarg.add_argument(&#34;--json&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Create a JSON file that contains the dataset.&#34;)
+    sarg.add_argument(&#34;--plot&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Generate plot graphs from the analysis.&#34;)
+    sarg.add_argument(&#34;--predict&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Predict the project size for the given inputs in the config file.&#34;)
+    sarg.add_argument(&#34;--generate&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Generate a new Sparkle configuration.&#34;)
+    return sarg
+
+def generate_csv(raw_dataset: list):
+    &#34;&#34;&#34;Write a CSV file containing the raw dataset information.
+
+    Args:
+        raw_dataset (list): The list containing the repository information.
+    &#34;&#34;&#34;
+    with open(&#34;dataset.csv&#34;, &#34;w+&#34;) as csv_file_writer:
+        csv_data_writer = csv.writer(csv_file_writer,
+                                     delimiter=&#34;,&#34;,
+                                     quotechar=&#34;|&#34;,
+                                     quoting=csv.QUOTE_MINIMAL)
+        csv_data_writer.writerow([
+            &#34;Repository&#34;,
+            &#34;Git Commit Author&#34;,
+            &#34;Total Commits&#34;,
+            &#34;Total Commits by Author&#34;,
+            &#34;Sunday&#34;,
+            &#34;Monday&#34;,
+            &#34;Tuesday&#34;,
+            &#34;Wednesday&#34;,
+            &#34;Thursday&#34;,
+            &#34;Friday&#34;,
+            &#34;Saturday&#34;
+        ])
+
+        data: GHRepositoryWeeksum
+        for data in raw_dataset:
+            csv_data_writer.writerow([
+                data.name,
+                data.author,
+                data.abstotal,
+                data.total,
+                data.weeksum.sunday(),
+                data.weeksum.monday(),
+                data.weeksum.tuesday(),
+                data.weeksum.wednesday(),
+                data.weeksum.thursday(),
+                data.weeksum.friday(),
+                data.weeksum.saturday()
+            ])
+
+def main(**kwargs):
+    &#34;&#34;&#34;Run the main program.
+
+    Args:
+        **kwargs (dict): Arbitrary keyword arguments.
+
+    Kwargs:
+        args (list): The list of arguments to pass to the program.
+    &#34;&#34;&#34;
+
+    # Get the arguments needed for this program to function.
+    args = kwargs[&#34;args&#34;] if &#34;args&#34; in kwargs else sys.argv[1:]
+    options = sparkle_args().parse_args(args)
+
+    # Configure the logger and re-route logging data if requested.
+    logging.basicConfig(format=&#39;[%(levelname)s] %(message)s&#39;,
+                        level=logging.INFO,
+                        filename=options.log_file[0] if options.log_file else None)
+
+    # If the user has requested to generate a Sparkle configuration, run the interactive tool
+    # and exit the program after.
+    if options.generate:
+        logging.info(&#34;Generate option detected. Generating new sparkle.toml...&#34;)
+        try:
+            create_sparkle_data()
+        except KeyboardInterrupt:
+            logging.info(&#34;Generation tool aborted by user.&#34;)
+        return
+
+    # If no configuration file has been supplied, display the help message and exit here.
+    if not options.config:
+        sparkle_args().print_help()
+        return
+
+    # Load the configuration file and create the GitHub data collector.
+    print(&#34;🛠  Reading configuration...&#34;)
+    try:
+        config = TSConfiguration(options.config[0])
+    except TSConfigurationError as err:
+        logging.error(&#34;Configuration failed to load: %s&#34;, err)
+        return
+
+    if &#34;config&#34; not in vars():
+        return
+
+    gh_collector = GithubMLDataCollector(config.get_token())
+    raw_dataset = []
+
+    if not config.study_repos:
+        logging.log(logging.WARN, &#34;Repository list is empty.&#34;)
+
+    # Collect the repository data for every repository listed in the config.
+    print(&#34;🌎 Collecting data from GitHub...&#34;)
+    shuffle(config.study_repos)
+    for repo in config.study_repos:
+        raw_dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
+    print(&#34;Collected data for %s repositories.&#34; % (len(config.study_repos)))
+
+    if options.json or options.csv:
+        print(&#34;📥 Exporting raw dataset...&#34;)
+
+    # Write a JSON file containing the raw data if requested.
+    if options.json:
+        logging.info(&#34;Writing JSON dataset to dataset.json...&#34;)
+        with open(&#34;dataset.json&#34;, &#34;w+&#34;) as json_file:
+            json_file.write(json.dumps([x.to_dict() for x in raw_dataset], indent=4))
+
+    # Write a CSV file containing the raw data if requested.
+    if options.csv:
+        logging.info(&#34;Writing CSV dataset to results.csv...&#34;)
+        generate_csv(raw_dataset)
+
+    # Create the dataset from the raw repository data.
+    true_dataset = create_dataset(raw_dataset)
+
+    print(&#34;🔍 Preparing network models...&#34;)
+    logging.info(&#34;Running analysis on dataset...&#34;)
+    analyses = [analyze_dataset(dataset=true_dataset, model=model) for model in config.models]
+
+    # If predictions are enabled, run the predictions on the inputs in the config.
+    if options.predict:
+        print(&#34;📖 Making predictions...&#34;)
+        logging.info(&#34;Predicting values in config...&#34;)
+        sort_by_accuracy = lambda a: a.get_accuracy()
+        matches_method = lambda x: x.model_type.name.lower() == config.prediction_method
+
+        if config.prediction_method == &#34;best&#34;:
+            model = max(analyses, key=sort_by_accuracy)
+            logging.info(&#34;Determined that %s is best model.&#34;, model.model_type.name.lower())
+        else:
+            model = [x for x in analyses if matches_method(x)][0]
+
+        pred_input: dict
+        for pred_input in config.inputs:
+            logging.info(&#34;Predicting commit count for %s with weeksum %s...&#34;,
+                         pred_input[&#34;name&#34;],
+                         pred_input[&#34;commits&#34;])
+            count = model.predict(pred_input[&#34;commits&#34;])
+            logging.info(&#34;Predicted value of %s.&#34;, count)
+            print(&#34;Predicted that %s will have %s commits in total.&#34;
+                  % (pred_input[&#34;name&#34;], int(count)))
+
+    # Create plot images if plot is passed as an argument.
+    if options.plot:
+        result: TSDataAnalysisResult
+        for result in analyses:
+            logging.info(&#34;Creating a plot for results using %s model.&#34;,
+                         result.model_type.name.lower())
+            try:
+                result.plot()
+                logging.info(&#34;Plot saved to sparkle_analytics_%s.png.&#34;, result.model_type.name)
+            except Exception as err:    #pylint:disable=broad-except
+                logging.error(&#34;Failed to plot data: %s&#34;, err)
+
+# Main loop.
+if __name__ == &#34;__main__&#34;:
+    main()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="gh_twilight.cli.generate_csv"><code class="name flex">
+<span>def <span class="ident">generate_csv</span></span>(<span>raw_dataset)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Write a CSV file containing the raw dataset information.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>raw_dataset</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list containing the repository information.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_csv(raw_dataset: list):
+    &#34;&#34;&#34;Write a CSV file containing the raw dataset information.
+
+    Args:
+        raw_dataset (list): The list containing the repository information.
+    &#34;&#34;&#34;
+    with open(&#34;dataset.csv&#34;, &#34;w+&#34;) as csv_file_writer:
+        csv_data_writer = csv.writer(csv_file_writer,
+                                     delimiter=&#34;,&#34;,
+                                     quotechar=&#34;|&#34;,
+                                     quoting=csv.QUOTE_MINIMAL)
+        csv_data_writer.writerow([
+            &#34;Repository&#34;,
+            &#34;Git Commit Author&#34;,
+            &#34;Total Commits&#34;,
+            &#34;Total Commits by Author&#34;,
+            &#34;Sunday&#34;,
+            &#34;Monday&#34;,
+            &#34;Tuesday&#34;,
+            &#34;Wednesday&#34;,
+            &#34;Thursday&#34;,
+            &#34;Friday&#34;,
+            &#34;Saturday&#34;
+        ])
+
+        data: GHRepositoryWeeksum
+        for data in raw_dataset:
+            csv_data_writer.writerow([
+                data.name,
+                data.author,
+                data.abstotal,
+                data.total,
+                data.weeksum.sunday(),
+                data.weeksum.monday(),
+                data.weeksum.tuesday(),
+                data.weeksum.wednesday(),
+                data.weeksum.thursday(),
+                data.weeksum.friday(),
+                data.weeksum.saturday()
+            ])</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.cli.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>**kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Run the main program.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>**kwargs</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Arbitrary keyword arguments.</dd>
+</dl>
+<h2 id="kwargs">Kwargs</h2>
+<dl>
+<dt><strong><code>args</code></strong> :&ensp;<code>list</code></dt>
+<dd>The list of arguments to pass to the program.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main(**kwargs):
+    &#34;&#34;&#34;Run the main program.
+
+    Args:
+        **kwargs (dict): Arbitrary keyword arguments.
+
+    Kwargs:
+        args (list): The list of arguments to pass to the program.
+    &#34;&#34;&#34;
+
+    # Get the arguments needed for this program to function.
+    args = kwargs[&#34;args&#34;] if &#34;args&#34; in kwargs else sys.argv[1:]
+    options = sparkle_args().parse_args(args)
+
+    # Configure the logger and re-route logging data if requested.
+    logging.basicConfig(format=&#39;[%(levelname)s] %(message)s&#39;,
+                        level=logging.INFO,
+                        filename=options.log_file[0] if options.log_file else None)
+
+    # If the user has requested to generate a Sparkle configuration, run the interactive tool
+    # and exit the program after.
+    if options.generate:
+        logging.info(&#34;Generate option detected. Generating new sparkle.toml...&#34;)
+        try:
+            create_sparkle_data()
+        except KeyboardInterrupt:
+            logging.info(&#34;Generation tool aborted by user.&#34;)
+        return
+
+    # If no configuration file has been supplied, display the help message and exit here.
+    if not options.config:
+        sparkle_args().print_help()
+        return
+
+    # Load the configuration file and create the GitHub data collector.
+    print(&#34;🛠  Reading configuration...&#34;)
+    try:
+        config = TSConfiguration(options.config[0])
+    except TSConfigurationError as err:
+        logging.error(&#34;Configuration failed to load: %s&#34;, err)
+        return
+
+    if &#34;config&#34; not in vars():
+        return
+
+    gh_collector = GithubMLDataCollector(config.get_token())
+    raw_dataset = []
+
+    if not config.study_repos:
+        logging.log(logging.WARN, &#34;Repository list is empty.&#34;)
+
+    # Collect the repository data for every repository listed in the config.
+    print(&#34;🌎 Collecting data from GitHub...&#34;)
+    shuffle(config.study_repos)
+    for repo in config.study_repos:
+        raw_dataset.append(gh_collector.get_weeksum(repo, by_author=config.git_name))
+    print(&#34;Collected data for %s repositories.&#34; % (len(config.study_repos)))
+
+    if options.json or options.csv:
+        print(&#34;📥 Exporting raw dataset...&#34;)
+
+    # Write a JSON file containing the raw data if requested.
+    if options.json:
+        logging.info(&#34;Writing JSON dataset to dataset.json...&#34;)
+        with open(&#34;dataset.json&#34;, &#34;w+&#34;) as json_file:
+            json_file.write(json.dumps([x.to_dict() for x in raw_dataset], indent=4))
+
+    # Write a CSV file containing the raw data if requested.
+    if options.csv:
+        logging.info(&#34;Writing CSV dataset to results.csv...&#34;)
+        generate_csv(raw_dataset)
+
+    # Create the dataset from the raw repository data.
+    true_dataset = create_dataset(raw_dataset)
+
+    print(&#34;🔍 Preparing network models...&#34;)
+    logging.info(&#34;Running analysis on dataset...&#34;)
+    analyses = [analyze_dataset(dataset=true_dataset, model=model) for model in config.models]
+
+    # If predictions are enabled, run the predictions on the inputs in the config.
+    if options.predict:
+        print(&#34;📖 Making predictions...&#34;)
+        logging.info(&#34;Predicting values in config...&#34;)
+        sort_by_accuracy = lambda a: a.get_accuracy()
+        matches_method = lambda x: x.model_type.name.lower() == config.prediction_method
+
+        if config.prediction_method == &#34;best&#34;:
+            model = max(analyses, key=sort_by_accuracy)
+            logging.info(&#34;Determined that %s is best model.&#34;, model.model_type.name.lower())
+        else:
+            model = [x for x in analyses if matches_method(x)][0]
+
+        pred_input: dict
+        for pred_input in config.inputs:
+            logging.info(&#34;Predicting commit count for %s with weeksum %s...&#34;,
+                         pred_input[&#34;name&#34;],
+                         pred_input[&#34;commits&#34;])
+            count = model.predict(pred_input[&#34;commits&#34;])
+            logging.info(&#34;Predicted value of %s.&#34;, count)
+            print(&#34;Predicted that %s will have %s commits in total.&#34;
+                  % (pred_input[&#34;name&#34;], int(count)))
+
+    # Create plot images if plot is passed as an argument.
+    if options.plot:
+        result: TSDataAnalysisResult
+        for result in analyses:
+            logging.info(&#34;Creating a plot for results using %s model.&#34;,
+                         result.model_type.name.lower())
+            try:
+                result.plot()
+                logging.info(&#34;Plot saved to sparkle_analytics_%s.png.&#34;, result.model_type.name)
+            except Exception as err:    #pylint:disable=broad-except
+                logging.error(&#34;Failed to plot data: %s&#34;, err)</code></pre>
+</details>
+</dd>
+<dt id="gh_twilight.cli.sparkle_args"><code class="name flex">
+<span>def <span class="ident">sparkle_args</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Create the argument parser for Twilight.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sparkle_args() -&gt; ArgumentParser:
+    &#34;&#34;&#34;Create the argument parser for Twilight.&#34;&#34;&#34;
+    sarg = ArgumentParser(&#34;Predict a repository&#39;s size based on a contributor&#39;s commit history.&#34;)
+    sarg.add_argument(&#34;--config&#34;,
+                      nargs=1,
+                      help=&#34;The path to the configuration file to read from.&#34;)
+    sarg.add_argument(&#34;--log-file&#34;,
+                      nargs=1,
+                      help=&#34;The path to where a log file should be created.&#34;)
+    sarg.add_argument(&#34;--csv&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Create a CSV file that contains the dataset.&#34;)
+    sarg.add_argument(&#34;--json&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Create a JSON file that contains the dataset.&#34;)
+    sarg.add_argument(&#34;--plot&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Generate plot graphs from the analysis.&#34;)
+    sarg.add_argument(&#34;--predict&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Predict the project size for the given inputs in the config file.&#34;)
+    sarg.add_argument(&#34;--generate&#34;,
+                      action=&#34;store_true&#34;,
+                      help=&#34;Generate a new Sparkle configuration.&#34;)
+    return sarg</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="gh_twilight" href="index.html">gh_twilight</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="gh_twilight.cli.generate_csv" href="#gh_twilight.cli.generate_csv">generate_csv</a></code></li>
+<li><code><a title="gh_twilight.cli.main" href="#gh_twilight.cli.main">main</a></code></li>
+<li><code><a title="gh_twilight.cli.sparkle_args" href="#gh_twilight.cli.sparkle_args">sparkle_args</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

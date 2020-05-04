@@ -1,5 +1,9 @@
-from gh_twilight import __version__, create_dataset, GHRepositoryWeeksum
+"""The tests module contains all of the tests that are used to ensure Project Twilight works as
+    intended."""
 import numpy
+from gh_twilight.analysis import create_dataset
+from gh_twilight.repo import GHRepositoryWeeksum
+from gh_twilight import __version__
 
 def test_version():
     """Test that the version string matches."""

@@ -26,6 +26,8 @@ class TSConfiguration:
     Attributes:
         study_repos (list): The list of repos to use as modeling data.
         git_name (str): The name of the Git author to filter for, if any.
+        prediction_method (str): The method for making predictions.
+        inputs (list): The list of inputs to predict values for.
     """
 
     study_repos = []
@@ -40,7 +42,7 @@ class TSConfiguration:
     def __init__(self, path: str):
         """Create a configuration from the given TOML file path.
 
-        Arguments:
+        Args:
             path (str): The file path to the sparkle.toml to read from.
         """
         with open(path, 'r') as sparkle_reader:

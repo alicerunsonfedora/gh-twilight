@@ -12,8 +12,26 @@
 from gh_twilight.commit import GHCommitWeek
 
 class GHRepositoryWeeksum:
-    """A class representation of a repository with commit counts."""
-    def __init__(self, name, author, total, abstotal, weeksum):
+    """A class representation of a repository with commit counts.
+
+    Attributes:
+        name (str): The name of the repository.
+        author (str): The Git author that made the commits in weeksum.
+        total (int): The total number of commits made by the Git author to the repository.
+        abstotal (int): The total nomber of commits to the repository.
+        weeksum (GHCommitWeek): The data structure that represents the commit week.
+    """
+
+    def __init__(self, name: str, author: str, total: int, abstotal: int, weeksum: list):
+        """Initialize a GHRepositoryWeeksum data structure.
+
+        Args:
+            name (str): The name of the repository.
+            author (str): The Git author that made the commits in weeksum.
+            total (int): The total number of commits made by the Git author to the repository.
+            abstotal (int): The total nomber of commits to the repository.
+            weeksum (list): The list of integers that represent the commit week.
+        """
         self.name = name
         self.author = author
         self.total = total
@@ -44,7 +62,7 @@ Total commits per weekday:
                        self.weeksum.friday(),
                        self.weeksum.saturday())
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         """Get a serialized dictionary of the repo data.
 
         Returns:

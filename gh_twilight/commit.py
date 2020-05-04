@@ -14,9 +14,9 @@ class GHCommitWeek:
     def __init__(self, days):
         """Construct a commit week.
 
-        Arguments:
-            days (list): A list containing integer values that correspond to how many commits were pushed on each day of
-                the week.
+        Args:
+            days (list): A list containing integer values that correspond to how many commits were
+                pushed on each day of the week.
         """
         if len(days) != 7:
             raise ValueError("List is required to have seven values. Got %s instead." % (len(days)))

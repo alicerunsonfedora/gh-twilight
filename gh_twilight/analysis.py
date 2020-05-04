@@ -11,6 +11,7 @@
 """The analysis submodule contains the utilities and functions necessary for analyzing repository
     data."""
 from enum import IntEnum
+from typing import Union
 import logging
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -24,11 +25,11 @@ from gh_twilight.repo import GHRepositoryWeeksum
 class TSDataModel(IntEnum):
     """An enumeration for the type of data model to analyze with.
 
-    Enumerations:
-        LINEAR: Used for the linear regression model.
-        NEURAL: Used for a neural network with two layers and ten nodes per layer with an alpha of
-            0.1.
-        FOREST: Used for the random forest regression model.
+    Attributes:
+        LINEAR (int): Used for the linear regression model.
+        NEURAL (int): Used for a neural network with two layers and ten nodes per layer with an
+            alpha of 0.1.
+        FOREST (int): Used for the random forest regression model.
     """
     LINEAR = 0
     NEURAL = 1
@@ -43,21 +44,24 @@ class TSDataAnalysisError(Exception):
 class TSDataAnalysisResult():
     """A data structure that holds the results of a given analysis."""
 
-    def __init__(self, model_type: TSDataModel, model, **kwargs):
+    def __init__(self, model_type: TSDataModel,
+                 model: Union[MLPRegressor, LinearRegression, RandomForestRegressor],
+                 **kwargs):
         """Initialize an analysis result.
 
-        Arguments:
+        Args:
             model_type (TSDataModel): The type of model used.
-            model (object): The regression model that was used.
-            **kwargs (dict): Arbitrary keyword arguments.
+            model (Union[MLPRegressor, LinearRegression, RandomForestRegressor]): The regression
+                model that was used.
+            **kwargs: Arbitrary keyword arguments.
 
         Kwargs:
             accuracy (float): The accuracy score of this model.
+            data (dict): A dictionary containing the dataset.
             error (float): The mean squared error of this model.
+            labels (list): A list containing the names of the repositories.
             training_data (tuple): A tuple containing the training data for X and y.
             testing_data (tuple): A tuple containing the testing data for X and y.
-            labels (list): A list containing the names of the repositories.
-            data (dict): A dictionary containing the dataset.
         """
         self.model_type = model_type
         self.model = model
@@ -75,7 +79,7 @@ class TSDataAnalysisResult():
         if "data" in kwargs:
             self.labels = kwargs["data"]["targets"]
 
-            X, y = kwargs["data"]["data"]
+            X, y = kwargs["data"]["data"]   #pylint:disable=invalid-name
             self.x_train, self.y_train, self.x_test, self.y_test = train_test_split(X, y,
                                                                                     test_size=0.2)
 
@@ -117,7 +121,13 @@ class TSDataAnalysisResult():
         return self.error
 
     def plot(self):
-        """Plot the result data."""
+        """Create a plot that shows the predictions and actual results of the test data.
+
+        The model will graph the test sample and the predictions generated from it and will be
+            saved as "sparkle_analytics_X.png", where X represents the model being used.
+
+        To save space on the labels, the organization name is removed from the repository name.
+        """
         if "labels" not in self.__dict__:
             raise TSDataAnalysisError("Missing labels for data plot.")
 
@@ -133,16 +143,17 @@ class TSDataAnalysisResult():
         plt.savefig("sparkle_analytics_%s.png" % (self.model_type.name))
         plt.clf()
 
-    def predict(self, commits: list):
+    def predict(self, commits: list) -> float:
         """Predict the total commit count of a weekly sum of commits.
 
-        Arguments:
+        The prediction will round to the nearest integer value.
+
+        Args:
             commits (list): A list of integers representing the total number of commits for a given
                 weekday for all weekdays, starting from Sunday.
 
         Returns:
-            prediction (int): The predicted number of total project commits, rounded to the nearest
-                integer value.
+            prediction (float): The predicted number of total project commits.
         """
         commit_array = np.array(commits).reshape(1, -1)
         return round(self.model.predict(commit_array)[0])
@@ -150,12 +161,12 @@ class TSDataAnalysisResult():
 def create_raw_matrix(raw_dataset: list) -> np.ndarray:
     """Convert a list of GHRepositoryWeeksum objects to a proper numpy array for analysis.
 
-    Arguments:
+    Args:
         raw_dataset (list): The list of GHRepositoryWeeksum objects to convert
 
     Returns:
-        matrix (ndarray): A numpy array that contains all of the weekday commit numbers for every
-            repository in the list.
+        matr (ndarray): A NumPy array that contains all of the weekday commit numbers for
+            every repository in the list.
     """
     repository: GHRepositoryWeeksum
     matr = None
@@ -167,14 +178,17 @@ def create_raw_matrix(raw_dataset: list) -> np.ndarray:
         matr = np.empty((1, 1))
     return matr
 
-def create_dataset(raw: list) -> tuple:
+def create_dataset(raw: list) -> dict:
     """Create a dataset used for numpy analysis from a repository dataset list.
 
-    Arguments:
+    Args:
         raw (list): The list of GHRepositoryWeeksum objects to create a dataset for
 
     Returns:
         data (dict): A dictionary containing the dataset, as well as targets and features.
+            The dictionary contains three keys: `targets`, for the name of the repositories,
+            `features`, for the weekday names on each commit in the list, and `data, a tuple
+            containing the commit weeksums (X) and the total number of commits for the project (Y).
     """
     dataset = {
         "targets": [x.name for x in raw],
@@ -189,7 +203,7 @@ def analyze_dataset(dataset: dict, model: TSDataModel):
     The analysis utility will split the data to training and testing data with an 80/20 split and
         selects an appropriate model to predict the total project commit values.
 
-    Arguments:
+    Args:
         dataset (tuple): A dictionary that represents the repository dataset to use for analysis.
         model (TSDataModel): The data model type to use.
 

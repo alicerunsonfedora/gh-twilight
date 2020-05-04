@@ -21,7 +21,7 @@ from gh_twilight.repo import GHRepositoryWeeksum
 from gh_twilight.sparkle import TSConfiguration, TSConfigurationError, create_sparkle_data
 from gh_twilight.analysis import create_dataset, analyze_dataset, TSDataAnalysisResult
 
-def sparkle_args():
+def sparkle_args() -> ArgumentParser:
     """Create the argument parser for Twilight."""
     sarg = ArgumentParser("Predict a repository's size based on a contributor's commit history.")
     sarg.add_argument("--config",
@@ -50,7 +50,7 @@ def sparkle_args():
 def generate_csv(raw_dataset: list):
     """Write a CSV file containing the raw dataset information.
 
-    Arguments:
+    Args:
         raw_dataset (list): The list containing the repository information.
     """
     with open("dataset.csv", "w+") as csv_file_writer:
@@ -91,10 +91,10 @@ def generate_csv(raw_dataset: list):
 def main(**kwargs):
     """Run the main program.
 
-    Arguments:
+    Args:
         **kwargs (dict): Arbitrary keyword arguments.
 
-    Keyword Arguments:
+    Kwargs:
         args (list): The list of arguments to pass to the program.
     """
 

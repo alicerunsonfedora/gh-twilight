@@ -25,7 +25,7 @@ class GithubMLDataCollector:
         """Construct a GitHub machine learning structure.
 
         Arguments:
-            token: The access token to sign in to GitHub with.
+            token (str): The access token to sign in to GitHub with.
         """
         self.client = Github(token)
         logging.info("Authentcated with GitHub.")
