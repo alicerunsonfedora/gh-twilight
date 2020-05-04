@@ -1,59 +1,85 @@
 # Project Twilight
 
-Predict a repository's size based on a contributor's commit history.
+![License](https://img.shields.io/github/license/alicerunsonfedora/gh-twilight) ![Tests](https://github.com/alicerunsonfedora/gh-twilight/workflows/Tests/badge.svg)
 
-## What is it?
+Project Twilight is a machine learning experiment for my DMC345 (Intro to Machine Learning) course that tries to predict a Git repository's size by reading a list of numbers that represent commits in a week. This tool makes use of SciKit Learn, matplotlib, and NumPy to handle data manipulation and analysis and PyGithub to fetch data from GitHub.
 
-Twilight is a project that aims to predict how many commits there are on projects you've contributed to by using machine learning models from SciKit Learn. Twilight makes use of tools like PyGithub and numpy to analyze repository datasets.
-
-## Getting started
+## Installation
 
 ### Install via PyPI (TBD)
-
-To install the project via PyPI, run `pip install gh-twilight`.
+Run `pip install gh-twilight` to install the tool to your Python environment.
 
 ### Build from source
 
 #### Requirements
-
-- Python 3.7+
+- Python 3.7 or higher
 - Poetry package manager
 
-#### Instructions
-After cloning the repository, run `poetry install` in the root of the project, followed by `poetry build`.
+Clone the repository and run `poetry install` in the project root to set up the environment and install dependencies.
 
-### Configuring the project
+## Creating a configuration file
 
-In your terminal, run `gh-twilight --generate` to open the interactive Sparkle configuration generator. Alternatively, you can make a config TOML file like below:
+To create the config file that Project Twilight uses, run `gh-twilight --generate` in your terminal. The configuration utility will help you set up some details about what models you want to use for training, your GitHub access token, and how you want to predict your data.
 
+## Running the utility
+
+### Configuration arguments
+- `--config CONFIG`: The path to the configuration file to use.
+`--generate`: Runs the interactive configuration utility.
+
+### Analysis and prediction arguments
+- `--plot`: Creates plot graphs of predicted and testing data from training the network.
+- `--predict`: Run predictions on the data provided in the configuration file.
+
+### Extra arguments
+- `--log-file LOG_FILE`: The path to where you want the logs to be store. Omitting this argument will disable logging.
+- `--csv`: Exports the raw dataset to a CSV file before analysis.
+- `--json`: Exports the raw dataset to a JSON file before analysis.
+
+## Sparkle configuration file
+The configuration file (in TOML syntax) contains important information on how to collect data, what data to collect, and how to run analysis and predictions. There are three important keys in the configuration file:
+
+- `config.account`: Includes GitHub personal token and Git username.
+- `config.activities`: Includes what repository to use as training data and what models to use.
+- `config.predictions`: Includes what model to use to make predictions and inputs to predict.
+
+### Account information
+The `config.account` section includes the following keys:
+
+- `git_name`: The Git username that made the commits to the repository
+- `token`: The GitHub personal token with the `repo` permission.
+
+### Activity configuration
+The `config.activities` section includes the following keys:
+
+- `models`: A list of strings containing what models to use. Valid options are `forest`, `neural`, and `linear`.
+- `repos`: A list of strings containing the repositories on GitHub to use as training data.
+
+### Prediction configuration
+The `config.predictions` section includes the following keys:
+
+- `method`: The model to use to make predictions. Valid options are `forest`, `neural`, `linear`, and `best`.
+    - Using `best` will automatically determine the best model to use by using the model with the highest R2 accuracy score.
+- `inputs`: A list of dictionaries that contain the input values to predict. The dictionary should have the following keys:
+    - `name`: The name of the repository. This does _not_ need to point to a real repository on GitHub.
+    - `commits`: A list containing seven integers that represent how many commits are made on the weekdays if all weeks are combined. For example, if a user make two commits to a repository every day for two weeks, the commits list should be `[4, 4, 4, 4, 4, 4, 4]`.
+
+---
+
+An example configuration may look like the following:
 ```toml
 [config.account]
-token = "githubhash"
 git_name = "Twilight Sparkle"
+token = "githash"
 
 [config.activities]
-models = ["forest", "neural"]
-repos = [
-    "equestria/friendship",
-    "equestria/governance",
-]
+models = [ "forest", "linear" ]
+repos = [ "equestria/friendship.equ", "equestria/governance" ]
 
 [config.predictions]
 method = "best"
-inputs [
-    {name = "example/example", commits = [1, 0, 0, 1, 0, 0, 1]},
-]
+inputs = [{ name = "equestria/journal", commits = [1, 13, 9, 8, 7, 12, 8] }]
 ```
 
-### Running the tool
-
-Run `gh-twilight --config <pathToConfigFile>` to run the analysis tool. Graphs will be produced where the tool is run from.
-
-#### Arguments
-
-- `--config CONFIG`: The path to the Sparkle configuration file to read from and analyze.
-- `--generate`: Run the interactive config generator.
-- `--csv`: Export the raw repository dataset as a CSV file.
-- `--json`: Export the raw repository dataset as a JSON file.
-- `--plot`: Graph a plot that demonstrates the accuracy of the testing data.
-- `--predict`: Predict the total project commits in the configuration file.
+## License
+Project Twilight is free and open-source software licensed under the Mozilla Public License, v2.0.
