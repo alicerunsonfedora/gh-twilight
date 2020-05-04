@@ -6,3 +6,4 @@ dist/**
 **.dist-info
 .vscode/
 mysparkle.toml
+.pytest_cache/*
